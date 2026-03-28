@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   LayoutDashboard, 
   FileText, 
@@ -19,11 +20,14 @@ import {
   ArrowDownRight,
   DollarSign,
   CreditCard,
-  PiggyBank
+  PiggyBank,
+  LogOut,
+  Loader2
 } from 'lucide-react'
 
-// Sample data - In production, this would come from Beancount API
-const financialData = {
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+
+const sampleData = {
   pen: {
     totalAssets: 142500.00,
     totalLiabilities: 28500.00,
@@ -35,22 +39,10 @@ const financialData = {
     inventory: 45000.00,
     accountsPayable: 18500.00,
     loans: 10000.00
-  },
-  usd: {
-    totalAssets: 4850.00,
-    totalLiabilities: 0.00,
-    totalEquity: 4850.00,
-    monthlyIncome: 1200.00,
-    monthlyExpenses: 850.00,
-    cash: 3200.00,
-    accountsReceivable: 1650.00,
-    inventory: 0.00,
-    accountsPayable: 0.00,
-    loans: 0.00
   }
 }
 
-const recentTransactions = [
+const sampleTransactions = [
   {
     id: 1,
     date: { day: 28, month: 'Mar' },
@@ -242,12 +234,12 @@ const formatCurrency = (amount, currency) => {
 }
 
 // Sidebar Component
-const Sidebar = () => (
+const Sidebar = ({ onLogout, companyName }) => (
   <aside className="sidebar animate-fade-in-up">
     <div className="sidebar-logo">
       <div className="sidebar-logo-icon">₿</div>
       <div className="sidebar-logo-text">
-        <span className="sidebar-logo-title">PYME-Ledger</span>
+        <span className="sidebar-logo-title">BeanPCGE</span>
         <span className="sidebar-logo-subtitle">Perú</span>
       </div>
     </div>
@@ -296,12 +288,16 @@ const Sidebar = () => (
     
     <div className="footer">
       <div className="footer-user">
-        <div className="footer-avatar">MB</div>
+        <div className="footer-avatar">{(companyName || 'ME').slice(0, 2).toUpperCase()}</div>
         <div className="footer-user-info">
-          <span className="footer-user-name">Mi Bodega SAC</span>
+          <span className="footer-user-name">{companyName}</span>
           <span className="footer-user-role">Administrador</span>
         </div>
       </div>
+      <button onClick={onLogout} className="nav-item" style={{ marginTop: 12, width: '100%', border: 'none', background: 'transparent', textAlign: 'left' }}>
+        <LogOut className="nav-item-icon" />
+        Cerrar Sesión
+      </button>
     </div>
   </aside>
 )
@@ -363,8 +359,61 @@ const TransactionItem = ({ transaction }) => (
 
 // Main Dashboard Component
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [currency, setCurrency] = useState('PEN')
-  const data = financialData[currency]
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
+  const [company, setCompany] = useState(null)
+  const [data, setData] = useState(sampleData.pen)
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const storedUser = localStorage.getItem('user')
+    const storedCompany = localStorage.getItem('company')
+    
+    if (storedUser) setUser(JSON.parse(storedUser))
+    if (storedCompany) setCompany(JSON.parse(storedCompany))
+    
+    if (token) {
+      fetchDashboard(token)
+    } else {
+      setLoading(false)
+    }
+  }, [])
+  
+  const fetchDashboard = async (token) => {
+    try {
+      const res = await fetch(`${API_URL}/api/dashboard`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      const result = await res.json()
+      if (result.summary) {
+        setData({
+          totalAssets: result.summary.accountsReceivable + 62500,
+          totalLiabilities: result.summary.accountsPayable,
+          totalEquity: result.summary.accountsReceivable + 62500 - result.summary.accountsPayable,
+          monthlyIncome: result.summary.income,
+          monthlyExpenses: result.summary.expenses,
+          cash: 62500,
+          accountsReceivable: result.summary.accountsReceivable,
+          inventory: 45000,
+          accountsPayable: result.summary.accountsPayable,
+          loans: 0
+        })
+      }
+    } catch (err) {
+      console.error('Error fetching dashboard:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    localStorage.removeItem('company')
+    navigate('/login')
+  }
   
   const chartData = [
     { label: 'Ene', value: 38 },
@@ -375,10 +424,20 @@ const Dashboard = () => {
     { label: 'Jun', value: 50 }
   ]
   
+  const companyName = company?.name || user?.name || 'Mi Empresa'
+  
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Loader2 size={40} className="animate-spin" style={{ color: '#0D5C4A' }} />
+      </div>
+    )
+  }
+  
   return (
     <div className="app">
       <div className="layout">
-        <Sidebar />
+        <Sidebar onLogout={handleLogout} companyName={companyName} />
         
         <main className="main">
           <header className="header animate-fade-in-up">

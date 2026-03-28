@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  beanpcge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beanpcge
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - beanpcge-data:/app/backend/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - JWT_SECRET=${JWT_SECRET:-beanpcge-secret-change-in-production}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.beanpcge.rule=Host(`${DOMAIN:-beanpcge.local}`)"
+      - "traefik.http.routers.beanpcge.entrypoints=websecure"
+      - "traefik.http.routers.beanpcge.tls.certresolver=letsencrypt"
+      - "traefik.http.services.beanpcge.loadbalancer.server.port=3001"
+
+volumes:
+  beanpcge-data:
+    driver: local

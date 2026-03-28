@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeanPCGE - Contabilidad Inteligente para MYPEs Peruanas</title>
+    <meta name="description" content="Software de contabilidad con IA para MYPEs peruanas. Cumple con el PCGE, genera reportes SUNAT y controla tus finanzas por solo S/50/mes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-deep: #0D5C4A;
+            --emerald-light: #1A7A62;
+            --emerald-bright: #20B498;
+            --cream-warm: #F5F0E8;
+            --cream-paper: #FAF8F5;
+            --amber-gold: #D4A853;
+            --amber-bright: #E8C77A;
+            --charcoal: #1A1A1A;
+            --slate: #4A4A4A;
+            --slate-light: #6B6B6B;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream-warm);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Navbar */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 16px 0;
+            background: rgba(250, 248, 245, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(13, 92, 74, 0.08);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled { padding: 12px 0; background: rgba(250, 248, 245, 0.95); box-shadow: 0 4px 30px rgba(13, 92, 74, 0.1); }
+        .navbar-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem;
+            color: var(--emerald-deep); text-decoration: none;
+        }
+        .logo-icon {
+            width: 42px; height: 42px; background: var(--emerald-deep);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 1.3rem;
+        }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-link {
+            color: var(--slate); text-decoration: none; font-weight: 500; font-size: 0.95rem;
+            transition: color 0.2s ease; position: relative;
+        }
+        .nav-link:hover { color: var(--emerald-deep); }
+        .nav-buttons { display: flex; align-items: center; gap: 12px; }
+        .btn {
+            padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none; font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .btn-ghost { background: transparent; color: var(--emerald-deep); }
+        .btn-ghost:hover { background: rgba(13, 92, 74, 0.08); }
+        .btn-primary { background: var(--emerald-deep); color: var(--white); }
+        .btn-primary:hover { background: var(--emerald-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(13, 92, 74, 0.3); }
+        .btn-secondary { background: transparent; border: 2px solid var(--emerald-deep); color: var(--emerald-deep); }
+        .btn-secondary:hover { background: var(--emerald-deep); color: var(--white); transform: translateY(-2px); }
+        .btn-amber { background: var(--amber-gold); color: var(--charcoal); }
+        .btn-amber:hover { background: var(--amber-bright); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212, 168, 83, 0.4); }
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-menu-btn span { display: block; width: 24px; height: 2px; background: var(--charcoal); margin: 6px 0; transition: all 0.3s ease; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; padding: 140px 0 80px;
+            background: var(--cream-warm); position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; right: 0;
+            width: 55%; height: 100%;
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, #094538 100%);
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        .hero::after {
+            content: ''; position: absolute; top: 0; right: 0;
+            width: 55%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M40 40V0h-2v40h2zm0 0V80h-2V40h2zM0 40v-2h40v2H0zm0 0V0h-2v40h2zM80 40v-2H40v2h40zm0 0V80h-2V40h2zM40 80v-2h40v2H40zm0 0V0h-2v80h2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 600px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--white); padding: 8px 16px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; color: var(--emerald-deep);
+            margin-bottom: 24px; box-shadow: 0 4px 20px rgba(13, 92, 74, 0.1);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .hero-badge-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        .hero h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); color: var(--charcoal); margin-bottom: 24px; animation: fadeInUp 0.6s ease 0.1s forwards; opacity: 0; }
+        .hero h1 span { color: var(--emerald-deep); position: relative; }
+        .hero p { font-size: 1.2rem; color: var(--slate); margin-bottom: 32px; max-width: 520px; animation: fadeInUp 0.6s ease 0.2s forwards; opacity: 0; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; animation: fadeInUp 0.6s ease 0.3s forwards; opacity: 0; }
+        .hero-stats { display: flex; gap: 48px; animation: fadeInUp 0.6s ease 0.4s forwards; opacity: 0; }
+        .hero-stat { text-align: left; }
+        .hero-stat-value { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--emerald-deep); }
+        .hero-stat-label { font-size: 0.9rem; color: var(--slate-light); }
+        .hero-visual { position: absolute; right: 5%; top: 50%; transform: translateY(-50%); width: 45%; max-width: 600px; z-index: 1; }
+        .dashboard-mockup {
+            background: var(--white); border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(13, 92, 74, 0.2);
+            overflow: hidden; transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+            transition: transform 0.5s ease;
+        }
+        .dashboard-mockup:hover { transform: perspective(1000px) rotateY(0) rotateX(0); }
+        .mockup-header { background: var(--cream-paper); padding: 16px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .mockup-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .mockup-dot.red { background: #FF5F57; }
+        .mockup-dot.yellow { background: #FEBC2E; }
+        .mockup-dot.green { background: #28C840; }
+        .mockup-content { padding: 24px; }
+        .mockup-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+        .mockup-metric { background: var(--cream-warm); padding: 16px; border-radius: 12px; }
+        .mockup-metric-label { font-size: 0.75rem; color: var(--slate-light); margin-bottom: 4px; }
+        .mockup-metric-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem; }
+        .mockup-metric-value.green { color: var(--success); }
+        .mockup-metric-value.red { color: var(--danger); }
+        .mockup-metric-value.emerald { color: var(--emerald-deep); }
+        .mockup-chart { height: 120px; display: flex; align-items: flex-end; gap: 8px; padding: 16px; background: var(--cream-warm); border-radius: 12px; }
+        .chart-bar { flex: 1; background: var(--emerald-deep); border-radius: 4px 4px 0 0; transition: height 0.5s ease; }
+
+        /* Sections */
+        .section { padding: 100px 0; }
+        .section-label {
+            display: inline-block; background: rgba(212, 168, 83, 0.15);
+            color: #B8923A; padding: 8px 16px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; margin-bottom: 16px;
+        }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--charcoal); margin-bottom: 16px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--slate-light); max-width: 600px; }
+
+        /* Problem */
+        .problem { background: var(--charcoal); color: var(--white); position: relative; overflow: hidden; }
+        .problem::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .problem .section-label { background: rgba(239, 68, 68, 0.2); color: #F87171; }
+        .problem .section-title { color: var(--white); }
+        .problem .section-subtitle { color: rgba(255,255,255,0.6); }
+        .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+        .problem-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 32px; transition: all 0.3s ease;
+        }
+        .problem-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); }
+        .problem-icon { width: 56px; height: 56px; background: rgba(239, 68, 68, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+        .problem-card h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--white); }
+        .problem-card p { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+        .problem-stat { margin-top: 48px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        .problem-stat-item { text-align: center; }
+        .problem-stat-value { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--amber-gold); line-height: 1; }
+        .problem-stat-label { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 8px; }
+
+        /* Solution */
+        .solution { background: var(--cream-paper); }
+        .solution-header { text-align: center; max-width: 700px; margin: 0 auto 64px; }
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .feature-card {
+            background: var(--white); border-radius: 16px; padding: 32px 24px;
+            text-align: center; transition: all 0.3s ease; border: 2px solid transparent;
+        }
+        .feature-card:hover { border-color: var(--emerald-deep); transform: translateY(-8px); box-shadow: 0 20px 50px rgba(13, 92, 74, 0.12); }
+        .feature-icon {
+            width: 72px; height: 72px;
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-light) 100%);
+            border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 1.8rem; color: var(--white);
+        }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 12px; color: var(--charcoal); }
+        .feature-card p { font-size: 0.9rem; color: var(--slate-light); line-height: 1.6; }
+
+        /* How It Works */
+        .how-it-works { background: var(--white); }
+        .steps-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; }
+        .step { position: relative; }
+        .step-number {
+            font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800;
+            color: rgba(13, 92, 74, 0.08); position: absolute; top: -20px; left: -10px; z-index: 0;
+        }
+        .step-content { position: relative; z-index: 1; background: var(--cream-warm); border-radius: 16px; padding: 32px; height: 100%; }
+        .step-icon { width: 64px; height: 64px; background: var(--emerald-deep); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--white); margin-bottom: 20px; }
+        .step h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--charcoal); }
+        .step p { color: var(--slate-light); font-size: 0.95rem; }
+        .step-arrow { position: absolute; right: -32px; top: 50%; transform: translateY(-50%); color: var(--emerald-deep); font-size: 2rem; opacity: 0.3; }
+        .step:last-child .step-arrow { display: none; }
+
+        /* Pricing */
+        .pricing { background: var(--cream-warm); }
+        .pricing-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 900px; margin: 0 auto; }
+        .pricing-card { background: var(--white); border-radius: 24px; padding: 40px; position: relative; transition: all 0.3s ease; border: 2px solid transparent; }
+        .pricing-card:hover { transform: translateY(-8px); }
+        .pricing-card.featured { border-color: var(--emerald-deep); box-shadow: 0 20px 60px rgba(13, 92, 74, 0.15); }
+        .pricing-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--amber-gold); color: var(--charcoal); padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .pricing-name { font-size: 1.3rem; font-weight: 600; color: var(--slate); margin-bottom: 8px; }
+        .pricing-price { font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--emerald-deep); line-height: 1; }
+        .pricing-price span { font-size: 1rem; color: var(--slate-light); font-weight: 500; }
+        .pricing-description { color: var(--slate-light); margin-bottom: 32px; font-size: 0.95rem; }
+        .pricing-features { list-style: none; margin-bottom: 32px; }
+        .pricing-features li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cream-warm); font-size: 0.95rem; }
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-features .check { color: var(--success); font-weight: bold; }
+        .pricing-features .cross { color: var(--slate-light); opacity: 0.5; }
+        .pricing-card .btn { width: 100%; padding: 16px; font-size: 1rem; }
+
+        /* Testimonials */
+        .testimonials { background: var(--emerald-deep); color: var(--white); position: relative; overflow: hidden; }
+        .testimonials::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .testimonials .section-label { background: rgba(255,255,255,0.15); color: var(--amber-gold); }
+        .testimonials .section-title { color: var(--white); }
+        .testimonials .section-subtitle { color: rgba(255,255,255,0.6); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; }
+        .testimonial-card { background: rgba(255,255,255,0.08); border-radius: 16px; padding: 32px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .testimonial-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-8px); }
+        .testimonial-stars { color: var(--amber-gold); font-size: 1.2rem; margin-bottom: 16px; letter-spacing: 2px; }
+        .testimonial-text { font-size: 1rem; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 24px; }
+        .testimonial-author { display: flex; align-items: center; gap: 16px; }
+        .testimonial-avatar { width: 48px; height: 48px; background: var(--amber-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--charcoal); font-size: 1.1rem; }
+        .testimonial-info h4 { font-size: 1rem; color: var(--white); margin-bottom: 2px; }
+        .testimonial-info p { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+
+        /* FAQ */
+        .faq { background: var(--cream-paper); }
+        .faq-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .faq-grid { max-width: 800px; margin: 0 auto; display: grid; gap: 16px; }
+        .faq-item { background: var(--white); border-radius: 12px; overflow: hidden; border: 2px solid transparent; transition: all 0.3s ease; }
+        .faq-item:hover { border-color: var(--emerald-deep); }
+        .faq-question { padding: 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1.05rem; }
+        .faq-question span { transition: transform 0.3s ease; }
+        .faq-item.active .faq-question span { transform: rotate(45deg); }
+        .faq-answer { padding: 0 24px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: var(--slate-light); line-height: 1.7; }
+        .faq-item.active .faq-answer { padding: 0 24px 24px; max-height: 200px; }
+
+        /* CTA */
+        .cta { background: linear-gradient(135deg, var(--emerald-deep) 0%, #094538 100%); position: relative; overflow: hidden; }
+        .cta::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .cta-content { text-align: center; position: relative; z-index: 1; }
+        .cta h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--white); margin-bottom: 16px; }
+        .cta p { font-size: 1.15rem; color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta .btn-white { background: var(--white); color: var(--emerald-deep); }
+        .cta .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .cta .btn-outline { background: transparent; border: 2px solid var(--white); color: var(--white); }
+        .cta .btn-outline:hover { background: var(--white); color: var(--emerald-deep); }
+        .trust-badges { display: flex; justify-content: center; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+        .trust-badge { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+        /* Footer */
+        .footer { background: var(--charcoal); color: var(--white); padding: 64px 0 32px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+        .footer-brand p { color: rgba(255,255,255,0.5); margin-top: 16px; font-size: 0.95rem; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; margin-top: 24px; }
+        .footer-social a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--white); text-decoration: none; transition: all 0.3s ease; }
+        .footer-social a:hover { background: var(--emerald-deep); transform: translateY(-2px); }
+        .footer-column h4 { font-size: 1rem; margin-bottom: 20px; color: var(--white); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: color 0.2s ease; }
+        .footer-links a:hover { color: var(--amber-gold); }
+        .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-bottom p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--white); border-radius: 20px; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: modalSlideIn 0.3s ease; }
+        @keyframes modalSlideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { padding: 24px 24px 0; text-align: center; }
+        .modal-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border: none; background: var(--cream-warm); border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .modal-close:hover { background: var(--emerald-deep); color: var(--white); }
+        .modal-logo { width: 60px; height: 60px; background: var(--emerald-deep); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.8rem; color: var(--white); }
+        .modal h2 { font-size: 1.5rem; margin-bottom: 8px; color: var(--charcoal); }
+        .modal-subtitle { color: var(--slate-light); font-size: 0.95rem; }
+        .modal-body { padding: 24px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; color: var(--charcoal); }
+        .form-input { width: 100%; padding: 14px 16px; border: 2px solid var(--cream-dark); border-radius: 10px; font-size: 1rem; font-family: inherit; transition: all 0.2s ease; background: var(--cream-paper); }
+        .form-input:focus { outline: none; border-color: var(--emerald-deep); background: var(--white); }
+        .form-input::placeholder { color: var(--slate-light); }
+        .btn-full { width: 100%; padding: 16px; font-size: 1rem; }
+        .modal-footer { text-align: center; padding: 0 24px 24px; color: var(--slate-light); font-size: 0.9rem; }
+        .modal-footer a { color: var(--emerald-deep); font-weight: 600; text-decoration: none; cursor: pointer; }
+        .modal-footer a:hover { text-decoration: underline; }
+        .demo-notice { background: var(--cream-warm); border-radius: 12px; padding: 16px; margin-bottom: 20px; font-size: 0.9rem; color: var(--slate); }
+        .demo-notice strong { color: var(--emerald-deep); }
+        .success-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--success), #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2.5rem; color: var(--white); }
+
+        /* Mobile Menu */
+        .mobile-menu { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--cream-warm); z-index: 999; display: none; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-size: 1.5rem; font-family: 'Syne', sans-serif; font-weight: 600; color: var(--charcoal); text-decoration: none; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--charcoal); }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .hero::before, .hero::after { display: none; }
+            .hero-visual { display: none; }
+            .hero-content { max-width: 100%; text-align: center; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .problem-grid, .problem-stat { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-container { grid-template-columns: 1fr; }
+            .step-arrow { display: none; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 450px; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons { display: none; }
+            .mobile-menu-btn { display: block; }
+            .section { padding: 60px 0; }
+            .hero { padding: 120px 0 60px; }
+            .hero-stats { flex-direction: column; gap: 24px; }
+            .features-grid, .problem-stat { grid-template-columns: 1fr; }
+            .problem-stat-value { font-size: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">₿</div>
+                    BeanPCGE
+                </a>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Características</a>
+                    <a href="#pricing" class="nav-link">Precios</a>
+                    <a href="#testimonials" class="nav-link">Testimonios</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-ghost" onclick="openModal('login')">Iniciar Sesión</button>
+                    <button class="btn btn-primary" onclick="openModal('register')">Empezar Gratis</button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
+        <a href="#features" onclick="toggleMobileMenu()">Características</a>
+        <a href="#pricing" onclick="toggleMobileMenu()">Precios</a>
+        <a href="#testimonials" onclick="toggleMobileMenu()">Testimonios</a>
+        <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+        <a href="#" onclick="openModal('login'); toggleMobileMenu();">Iniciar Sesión</a>
+        <button class="btn btn-primary" onclick="openModal('register'); toggleMobileMenu();">Empezar Gratis</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Ahora con Inteligencia Artificial
+                </div>
+                <h1>Contabilidad Profesional para <span>MYPEs Peruanas</span></h1>
+                <p>Controla tus finanzas, genera reportes SUNAT y evita multas. Todo en lenguaje simple. Por solo S/50/mes.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="openModal('register')">Empezar Prueba Gratis</button>
+                    <button class="btn btn-secondary" onclick="openModal('demo')">Ver Demo</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">S/50</div>
+                        <div class="hero-stat-label">por mes</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">100%</div>
+                        <div class="hero-stat-label">PCGE Oficial</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">24/7</div>
+                        <div class="hero-stat-label">Asistencia IA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="dashboard-mockup">
+                <div class="mockup-header">
+                    <span class="mockup-dot red"></span>
+                    <span class="mockup-dot yellow"></span>
+                    <span class="mockup-dot green"></span>
+                </div>
+                <div class="mockup-content">
+                    <div class="mockup-metrics">
+                        <div class="mockup-metric">
+                            <div class="mockup-metric-label">Ingresos</div>
+                            <div class="mockup-metric-value green">S/ 12,450</div>
+                        </div>
+                        <div class="mockup-metric">
+                            <div class="mockup-metric-label">Gastos</div>
+                            <div class="mockup-metric-value red">S/ 6,230</div>
+                        </div>
+                        <div class="mockup-metric">
+                            <div class="mockup-metric-label">Ganancia Neta</div>
+                            <div class="mockup-metric-value emerald">S/ 6,220</div>
+                        </div>
+                        <div class="mockup-metric">
+                            <div class="mockup-metric-label">SUNAT (30%)</div>
+                            <div class="mockup-metric-value">S/ 1,866</div>
+                        </div>
+                    </div>
+                    <div class="mockup-chart">
+                        <div class="chart-bar" style="height: 60%"></div>
+                        <div class="chart-bar" style="height: 80%"></div>
+                        <div class="chart-bar" style="height: 45%"></div>
+                        <div class="chart-bar" style="height: 90%"></div>
+                        <div class="chart-bar" style="height: 70%"></div>
+                        <div class="chart-bar" style="height: 85%"></div>
+                        <div class="chart-bar" style="height: 95%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="section problem">
+        <div class="container">
+            <div class="section-label">El Problema</div>
+            <h2 class="section-title">4 de cada 10 MYPEs fracasan</h2>
+            <p class="section-subtitle">La falta de control financiero es la principal causa de cierre de pequeños negocios en Perú.</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">📉</div>
+                    <h3>40% Cierran</h3>
+                    <p>de pequeñas empresas fracasan por falta de control financiero y bookkeeping adecuado.</p>
+                </div>
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">💸</div>
+                    <h3>S/700 Mensuales</h3>
+                    <p>cuesta un contador profesional. Muchas MYPEs no pueden permitirse ese gasto.</p>
+                </div>
+                <div class="problem-card animate-on-scroll">
+                    <div class="problem-icon">⚠️</div>
+                    <h3>Multas SUNAT</h3>
+                    <p>hasta S/1,500 por errores en reportes mensuales. El software tradicional es complejo.</p>
+                </div>
+            </div>
+
+            <div class="problem-stat">
+                <div class="problem-stat-item">
+                    <div class="problem-stat-value">40%</div>
+                    <div class="problem-stat-label">MYPEs que fracasan</div>
+                </div>
+                <div class="problem-stat-item">
+                    <div class="problem-stat-value">S/700</div>
+                    <div class="problem-stat-label">Contador promedio</div>
+                </div>
+                <div class="problem-stat-item">
+                    <div class="problem-stat-value">S/1,500</div>
+                    <div class="problem-stat-label">Multa promedio SUNAT</div>
+                </div>
+                <div class="problem-stat-item">
+                    <div class="problem-stat-value">85%</div>
+                    <div class="problem-stat-label">Sin contabilidad</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section solution" id="features">
+        <div class="container">
+            <div class="solution-header">
+                <div class="section-label">La Solución</div>
+                <h2 class="section-title">Contabilidad inteligente para entrepreneurs</h2>
+                <p class="section-subtitle">BeanPCGE combina la potencia de Beancount con el PCGE peruano y tecnología de IA.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">📒</div>
+                    <h3>PCGE Oficial</h3>
+                    <p>Cuentas configuradas con el Plan Contable General Empresarial 2019 oficial peruano.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">🤖</div>
+                    <h3>IA Asistente</h3>
+                    <p>Registra transacciones en lenguaje natural. La IA clasifica automáticamente según el PCGE.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">📋</div>
+                    <h3>Reportes SUNAT</h3>
+                    <p>Genera estados financieros, balance y reportes electrónicos en formato SUNAT.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">☁️</div>
+                    <h3>En la Nube</h3>
+                    <p>Accede desde tu celular o computadora. Tus datos siempre disponibles y seguros.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section how-it-works">
+        <div class="container">
+            <div class="solution-header">
+                <div class="section-label">Cómo Funciona</div>
+                <h2 class="section-title">En 3 simples pasos</h2>
+                <p class="section-subtitle">Comienza a controlar tus finanzas en minutos, sin conocimientos contables.</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step animate-on-scroll">
+                    <span class="step-number">01</span>
+                    <div class="step-content">
+                        <div class="step-icon">📝</div>
+                        <h3>Regístrate</h3>
+                        <p>Crea tu cuenta en 30 segundos. Solo necesitas tu RUC y correo electrónico.</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                </div>
+                <div class="step animate-on-scroll">
+                    <span class="step-number">02</span>
+                    <div class="step-content">
+                        <div class="step-icon">💬</div>
+                        <h3>Registra transacciones</h3>
+                        <p>Escribe en lenguaje natural: "Venta de S/500 a Cliente X" y la IA hace el resto.</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                </div>
+                <div class="step animate-on-scroll">
+                    <span class="step-number">03</span>
+                    <div class="step-content">
+                        <div class="step-icon">📊</div>
+                        <h3>Obtén reportes</h3>
+                        <p>Genera estados financieros, balance y reportes SUNAT con un solo clic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing" id="pricing">
+        <div class="container">
+            <div class="pricing-header">
+                <div class="section-label">Precios</div>
+                <h2 class="section-title">Invierte en tu control financiero</h2>
+                <p class="section-subtitle">El costo de un contador por 12 días. Tu negocio lo vale.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card animate-on-scroll">
+                    <div class="pricing-name">Básico</div>
+                    <div class="pricing-price">S/0<span>/mes</span></div>
+                    <p class="pricing-description">Ideal para probar y negocios pequeños</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Hasta 50 transacciones/mes</li>
+                        <li><span class="check">✓</span> Reportes básicos</li>
+                        <li><span class="check">✓</span> 1 usuario</li>
+                        <li><span class="check">✓</span> Soporte por email</li>
+                        <li class="cross"><span class="cross">×</span> Asistente IA</li>
+                        <li class="cross"><span class="cross">×</span> Reportes SUNAT</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="openModal('register')">Empezar Gratis</button>
+                </div>
+                <div class="pricing-card featured animate-on-scroll">
+                    <div class="pricing-badge">Más Popular</div>
+                    <div class="pricing-name">Pro</div>
+                    <div class="pricing-price">S/50<span>/mes</span></div>
+                    <p class="pricing-description">Todo lo que necesitas para tu MYPE</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Transacciones ilimitadas</li>
+                        <li><span class="check">✓</span> Reportes avanzados</li>
+                        <li><span class="check">✓</span> 5 usuarios</li>
+                        <li><span class="check">✓</span> Soporte prioritario</li>
+                        <li><span class="check">✓</span> Asistente IA</li>
+                        <li><span class="check">✓</span> Reportes SUNAT</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="openModal('register')">Empezar Prueba Gratis</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="solution-header">
+                <div class="section-label">Testimonios</div>
+                <h2 class="section-title">Emprendedores como tú</h2>
+                <p class="section-subtitle">Miles de MYPEs ya confían en BeanPCGE.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Antes pagaba S/600 mensuales a un contador. Con BeanPCGE gasto solo S/50 y tengo mis reportes al instante. El asistente IA me ayuda con todo."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MG</div>
+                        <div class="testimonial-info">
+                            <h4>María García</h4>
+                            <p>Tienda de regalos, Lima</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"No sé nada de contabilidad. BeanPCGE me permite registrar mis ventas diarias en segundos y saber realmente cuánto gano."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JC</div>
+                        <div class="testimonial-info">
+                            <h4>José Carlos Mendoza</h4>
+                            <p>Restaurante, Arequipa</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"El reporte SUNAT me toma 5 minutos ahora. Antes me estresaba pensando que cometería errores. Totalmente recomendado."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LP</div>
+                        <div class="testimonial-info">
+                            <h4>Lucía Peruvian</h4>
+                            <p>Agencia digital, Trujillo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq" id="faq">
+        <div class="container">
+            <div class="faq-header">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">Preguntas frecuentes</h2>
+                <p class="section-subtitle">Todo lo que necesitas saber sobre BeanPCGE.</p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        ¿Necesito conocimientos contables?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        No necesitas saber contabilidad. BeanPCGE está diseñado para entrepreneurs que no son contadores. Solo registras tus transacciones en lenguaje natural y la IA se encarga de clasificarlas según el PCGE.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        ¿Es legal para SUNAT?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, BeanPCGE cumple con el Plan Contable General Empresarial (PCGE) 2019 oficial. Los reportes que generas están en el formato requerido por SUNAT para tus declaraciones mensuales.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        ¿Puedo probar gratis?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, el plan Básico es completamente gratis con hasta 50 transacciones al mes. Puedes empezar hoy sin compromiso y actualizar a Pro cuando lo necesites.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        ¿Mis datos están seguros?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutamente. Tus datos se almacenan en servidores seguros con encriptación de nivel bancario. Además, hacemos backups automáticos diarios.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        ¿Qué pasa si tengo dudas?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Tienes acceso al asistente IA que responde tus preguntas 24/7. Los planes Pro incluyen soporte prioritario por chat y email.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Empieza Hoy Mismo</h2>
+                <p>Únete a miles de emprendedores peruanos que ya controlan sus finanzas con BeanPCGE.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-white" onclick="openModal('register')">Empezar Prueba Gratis</button>
+                    <button class="btn btn-outline" onclick="openModal('demo')">Ver Demo</button>
+                </div>
+                <div class="trust-badges">
+                    <div class="trust-badge">✓ Seguro con SUNAT</div>
+                    <div class="trust-badge">✓ Datos encriptados</div>
+                    <div class="trust-badge">✓ Soporte 24/7</div>
+                    <div class="trust-badge">✓ Cancelación fácil</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="color: var(--white);">
+                        <div class="logo-icon">₿</div>
+                        BeanPCGE
+                    </a>
+                    <p>Software de contabilidad con IA para MYPEs peruanas. Controla tus finanzas, genera reportes SUNAT y haz crecer tu negocio.</p>
+                    <div class="footer-social">
+                        <a href="#">𝕏</a>
+                        <a href="#">in</a>
+                        <a href="#">📸</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Producto</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Características</a></li>
+                        <li><a href="#pricing">Precios</a></li>
+                        <li><a href="#" onclick="openModal('demo')">Demo</a></li>
+                        <li><a href="#">Actualizaciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Empresa</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carreras</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos</a></li>
+                        <li><a href="#">Privacidad</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 BeanPCGE. Todos los derechos reservados.</p>
+                <p>Hecho con ❤️ para las MYPEs peruanas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div id="modalContent"></div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE = 'https://api.beanpcge.com/v1'; // Placeholder URL
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Modal functions
+        function openModal(type) {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
+            
+            let html = '';
+            switch(type) {
+                case 'login':
+                    html = `
+                        <div class="modal">
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                            <div class="modal-header">
+                                <div class="modal-logo">₿</div>
+                                <h2>Iniciar Sesión</h2>
+                                <p class="modal-subtitle">Accede a tu cuenta BeanPCGE</p>
+                            </div>
+                            <div class="modal-body">
+                                <form onsubmit="handleLogin(event)">
+                                    <div class="form-group">
+                                        <label class="form-label">Correo electrónico</label>
+                                        <input type="email" class="form-input" placeholder="tu@email.com" required id="loginEmail">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password" class="form-input" placeholder="••••••••" required id="loginPassword">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a onclick="openModal('reset')">¿Olvidaste tu contraseña?</a><br>
+                                ¿No tienes cuenta? <a onclick="openModal('register')">Regístrate gratis</a>
+                            </div>
+                        </div>`;
+                    break;
+                case 'register':
+                    html = `
+                        <div class="modal">
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                            <div class="modal-header">
+                                <div class="modal-logo">₿</div>
+                                <h2>Crea tu cuenta</h2>
+                                <p class="modal-subtitle">Empieza gratis en 30 segundos</p>
+                            </div>
+                            <div class="modal-body">
+                                <form onsubmit="handleRegister(event)">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre de tu empresa</label>
+                                        <input type="text" class="form-input" placeholder="Mi Empresa S.A.C." required id="regCompany">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">RUC</label>
+                                        <input type="text" class="form-input" placeholder="20612345678" maxlength="11" required id="regRuc">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Correo electrónico</label>
+                                        <input type="email" class="form-input" placeholder="tu@email.com" required id="regEmail">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password" class="form-input" placeholder="Mínimo 8 caracteres" minlength="8" required id="regPassword">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-full">Crear Cuenta Gratis</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                ¿Ya tienes cuenta? <a onclick="openModal('login')">Inicia sesión</a>
+                            </div>
+                        </div>`;
+                    break;
+                case 'demo':
+                    html = `
+                        <div class="modal">
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                            <div class="modal-header">
+                                <div class="modal-logo">₿</div>
+                                <h2>Modo Demo</h2>
+                                <p class="modal-subtitle">Explora BeanPCGE sin registrarte</p>
+                            </div>
+                            <div class="modal-body">
+                                <div class="demo-notice">
+                                    <strong>Modo Demo Activado</strong><br>
+                                    Explora todas las funciones con datos de ejemplo. No necesitas registrarte.
+                                </div>
+                                <button class="btn btn-primary btn-full" onclick="startDemo()">
+                                    Explorar Demo Ahora
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                ¿Quieres guardar tus datos? <a onclick="openModal('register')">Crea una cuenta</a>
+                            </div>
+                        </div>`;
+                    break;
+                case 'success':
+                    html = `
+                        <div class="modal">
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                            <div class="modal-header">
+                                <div class="success-icon">✓</div>
+                                <h2>¡Éxito!</h2>
+                                <p class="modal-subtitle">Tu cuenta ha sido creada</p>
+                            </div>
+                            <div class="modal-body">
+                                <button class="btn btn-primary btn-full" onclick="closeModal()">
+                                    Continuar
+                                </button>
+                            </div>
+                        </div>`;
+                    break;
+            }
+            
+            content.innerHTML = html;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Form handlers (API integration ready)
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // API call ready: POST /auth/login
+            // const response = await fetch(`${API_BASE}/auth/login`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ email, password })
+            // });
+            
+            console.log('Login attempt:', { email });
+            alert('Login funcional (API lista para conectar)');
+            closeModal();
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const company = document.getElementById('regCompany').value;
+            const ruc = document.getElementById('regRuc').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            // API call ready: POST /auth/register
+            // const response = await fetch(`${API_BASE}/auth/register`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ company, ruc, email, password })
+            // });
+            
+            console.log('Register attempt:', { company, ruc, email });
+            openModal('success');
+        }
+
+        function startDemo() {
+            closeModal();
+            alert('Demo iniciado con datos de ejemplo');
+        }
+
+        // FAQ
+        function toggleFaq(el) {
+            el.parentElement.classList.toggle('active');
+        }
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('animated');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Close mobile menu on resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) document.getElementById('mobileMenu').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

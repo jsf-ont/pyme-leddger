@@ -119,6 +119,12 @@
       border-radius: var(--radius-sm);
       transition: var(--transition);
       font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      font-size: 14px;
+      font-family: inherit;
     }
 
     .nav-link:hover {
@@ -250,6 +256,14 @@
       height: 18px;
     }
 
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -274,10 +288,7 @@
     .kpi-card:nth-child(4) { animation-delay: 0.4s; }
 
     @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .kpi-card:hover {
@@ -301,11 +312,7 @@
       justify-content: center;
     }
 
-    .kpi-icon svg {
-      width: 22px;
-      height: 22px;
-    }
-
+    .kpi-icon svg { width: 22px; height: 22px; }
     .kpi-icon.assets { background: rgba(13, 92, 74, 0.1); color: var(--emerald); }
     .kpi-icon.liabilities { background: rgba(196, 69, 54, 0.1); color: var(--danger); }
     .kpi-icon.equity { background: rgba(212, 168, 83, 0.1); color: var(--amber); }
@@ -321,21 +328,10 @@
       border-radius: 20px;
     }
 
-    .kpi-trend.up {
-      background: rgba(46, 125, 90, 0.1);
-      color: var(--success);
-    }
+    .kpi-trend.up { background: rgba(46, 125, 90, 0.1); color: var(--success); }
+    .kpi-trend.down { background: rgba(196, 69, 54, 0.1); color: var(--danger); }
 
-    .kpi-trend.down {
-      background: rgba(196, 69, 54, 0.1);
-      color: var(--danger);
-    }
-
-    .kpi-label {
-      font-size: 14px;
-      color: var(--slate);
-      margin-bottom: 8px;
-    }
+    .kpi-label { font-size: 14px; color: var(--slate); margin-bottom: 8px; }
 
     .kpi-value {
       font-family: 'Syne', sans-serif;
@@ -344,11 +340,7 @@
       color: var(--charcoal);
     }
 
-    .kpi-value span {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--slate);
-    }
+    .kpi-value span { font-size: 16px; font-weight: 500; color: var(--slate); }
 
     .charts-grid {
       display: grid;
@@ -377,30 +369,13 @@
       margin-bottom: 24px;
     }
 
-    .chart-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
+    .chart-title { font-size: 18px; font-weight: 700; }
 
-    .chart-legend {
-      display: flex;
-      gap: 16px;
-    }
+    .chart-legend { display: flex; gap: 16px; }
 
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--slate);
-    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--slate); }
 
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
     .legend-dot.income { background: var(--emerald); }
     .legend-dot.expenses { background: var(--danger); }
 
@@ -413,20 +388,9 @@
       border-bottom: 2px solid var(--light-gray);
     }
 
-    .bar-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
+    .bar-group { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
 
-    .bars {
-      display: flex;
-      gap: 6px;
-      align-items: flex-end;
-      height: 160px;
-    }
+    .bars { display: flex; gap: 6px; align-items: flex-end; height: 160px; }
 
     .bar {
       width: 28px;
@@ -438,76 +402,23 @@
     .bar.income { background: var(--emerald); }
     .bar.expenses { background: var(--danger); }
 
-    .bar:hover {
-      opacity: 0.8;
-      transform: scaleY(1.02);
-    }
+    .bar:hover { opacity: 0.8; transform: scaleY(1.02); }
 
-    .bar-label {
-      font-size: 12px;
-      color: var(--slate);
-      font-weight: 500;
-    }
+    .bar-label { font-size: 12px; color: var(--slate); font-weight: 500; }
 
-    .donut-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-    }
+    .donut-container { display: flex; align-items: center; justify-content: center; gap: 24px; }
 
-    .donut-chart {
-      position: relative;
-      width: 160px;
-      height: 160px;
-    }
+    .donut-chart { position: relative; width: 160px; height: 160px; }
+    .donut-chart svg { transform: rotate(-90deg); }
+    .donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+    .donut-center-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+    .donut-center-label { font-size: 11px; color: var(--slate); }
 
-    .donut-chart svg {
-      transform: rotate(-90deg);
-    }
+    .donut-legend { display: flex; flex-direction: column; gap: 12px; }
 
-    .donut-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
-
-    .donut-center-value {
-      font-family: 'Syne', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .donut-center-label {
-      font-size: 11px;
-      color: var(--slate);
-    }
-
-    .donut-legend {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .donut-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-    }
-
-    .donut-legend-item .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-    }
-
-    .donut-legend-item .value {
-      margin-left: auto;
-      font-weight: 600;
-    }
+    .donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .donut-legend-item .dot { width: 12px; height: 12px; border-radius: 3px; }
+    .donut-legend-item .value { margin-left: auto; font-weight: 600; }
 
     .tables-grid {
       display: grid;
@@ -529,146 +440,35 @@
     .table-card:nth-child(1) { animation-delay: 0.7s; }
     .table-card:nth-child(2) { animation-delay: 0.8s; }
 
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .table-title { font-size: 18px; font-weight: 700; }
+    .table-action { font-size: 13px; color: var(--emerald); text-decoration: none; font-weight: 600; cursor: pointer; transition: var(--transition); }
+    .table-action:hover { color: var(--emerald-dark); }
 
-    .table-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--slate); font-weight: 600; border-bottom: 2px solid var(--light-gray); }
+    .data-table td { padding: 14px 12px; font-size: 14px; border-bottom: 1px solid var(--light-gray); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(13, 92, 74, 0.02); }
 
-    .table-action {
-      font-size: 13px;
-      color: var(--emerald);
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .table-action:hover {
-      color: var(--emerald-dark);
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .data-table th {
-      text-align: left;
-      padding: 10px 12px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--slate);
-      font-weight: 600;
-      border-bottom: 2px solid var(--light-gray);
-    }
-
-    .data-table td {
-      padding: 14px 12px;
-      font-size: 14px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .data-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .data-table tr:hover td {
-      background: rgba(13, 92, 74, 0.02);
-    }
-
-    .account-code {
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      color: var(--slate);
-      background: var(--light-gray);
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-
-    .account-name {
-      font-weight: 500;
-    }
-
-    .amount {
-      font-weight: 600;
-      text-align: right;
-    }
-
+    .account-code { font-family: 'Courier New', monospace; font-size: 12px; color: var(--slate); background: var(--light-gray); padding: 4px 8px; border-radius: 4px; }
+    .account-name { font-weight: 500; }
+    .amount { font-weight: 600; text-align: right; }
     .amount.positive { color: var(--success); }
     .amount.negative { color: var(--danger); }
 
-    .transaction-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .transaction-item:last-child {
-      border-bottom: none;
-    }
-
-    .transaction-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .transaction-icon.income {
-      background: rgba(46, 125, 90, 0.1);
-      color: var(--success);
-    }
-
-    .transaction-icon.expense {
-      background: rgba(196, 69, 54, 0.1);
-      color: var(--danger);
-    }
-
-    .transaction-icon svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .transaction-details {
-      flex: 1;
-    }
-
-    .transaction-title {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 2px;
-    }
-
-    .transaction-meta {
-      font-size: 12px;
-      color: var(--slate);
-    }
-
-    .transaction-amount {
-      text-align: right;
-    }
-
-    .transaction-amount .amount {
-      font-size: 15px;
-    }
-
-    .transaction-amount .date {
-      font-size: 11px;
-      color: var(--slate);
-    }
+    .transaction-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--light-gray); }
+    .transaction-item:last-child { border-bottom: none; }
+    .transaction-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .transaction-icon.income { background: rgba(46, 125, 90, 0.1); color: var(--success); }
+    .transaction-icon.expense { background: rgba(196, 69, 54, 0.1); color: var(--danger); }
+    .transaction-icon svg { width: 18px; height: 18px; }
+    .transaction-details { flex: 1; }
+    .transaction-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    .transaction-meta { font-size: 12px; color: var(--slate); }
+    .transaction-amount { text-align: right; }
+    .transaction-amount .amount { font-size: 15px; }
+    .transaction-amount .date { font-size: 11px; color: var(--slate); }
 
     .quick-actions {
       background: var(--white);
@@ -681,23 +481,10 @@
       animation-delay: 0.9s;
     }
 
-    .actions-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .actions-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .actions-title { font-size: 18px; font-weight: 700; }
 
-    .actions-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
+    .actions-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
     .action-btn {
       display: flex;
@@ -713,201 +500,187 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    .action-btn:hover {
-      background: var(--cream);
-      border-color: var(--emerald);
-      transform: translateY(-2px);
-    }
+    .action-btn:hover { background: var(--cream); border-color: var(--emerald); transform: translateY(-2px); }
+    .action-btn svg { width: 24px; height: 24px; color: var(--emerald); }
+    .action-btn span { font-size: 13px; font-weight: 600; color: var(--charcoal); }
 
-    .action-btn svg {
-      width: 24px;
-      height: 24px;
-      color: var(--emerald);
-    }
-
-    .action-btn span {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--charcoal);
-    }
-
-    @media (max-width: 1200px) {
-      .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tables-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .actions-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main-content {
-        margin-left: 0;
-        padding: 16px;
-      }
-
-      .header {
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-start;
-      }
-
-      .header-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .kpi-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .kpi-value {
-        font-size: 24px;
-      }
-
-      .donut-container {
-        flex-direction: column;
-      }
-
-      .actions-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 200;
-      width: 44px;
-      height: 44px;
-      background: var(--emerald);
+    .btn {
+      padding: 10px 20px;
       border: none;
       border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
     }
 
-    .mobile-menu-btn svg {
-      width: 24px;
-      height: 24px;
-      color: var(--white);
+    .btn-primary { background: var(--emerald); color: var(--white); }
+    .btn-primary:hover { background: var(--emerald-dark); }
+    .btn-secondary { background: var(--cream); color: var(--charcoal); }
+    .btn-secondary:hover { background: var(--cream-dark); }
+    .btn-danger { background: var(--danger); color: var(--white); }
+    .btn-danger:hover { background: #a33a2d; }
+
+    .btn svg { width: 18px; height: 18px; }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 700; }
+
+    .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+
+    .filter-input, .filter-select {
+      padding: 10px 16px;
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      background: var(--white);
+      color: var(--charcoal);
+      transition: var(--transition);
+    }
+
+    .filter-input:focus, .filter-select:focus { outline: none; border-color: var(--emerald); }
+    .filter-input { flex: 1; min-width: 200px; }
+
+    .account-group { margin-bottom: 24px; }
+    .account-group-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--emerald); color: var(--white); border-radius: var(--radius-sm); margin-bottom: 12px; }
+    .account-group-title { font-weight: 700; font-size: 16px; }
+    .account-group-total { font-weight: 600; font-size: 16px; }
+    .account-subgroup { margin-left: 20px; margin-bottom: 12px; }
+    .account-subgroup-header { display: flex; justify-content: space-between; padding: 10px 12px; background: var(--cream); border-radius: var(--radius-sm); margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+
+    .report-header { text-align: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid var(--emerald); }
+    .report-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .report-header p { color: var(--slate); }
+    .report-section { margin-bottom: 24px; }
+    .report-section-title { font-size: 16px; font-weight: 700; color: var(--emerald); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--cream-dark); }
+    .report-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted var(--cream-dark); }
+    .report-row.indent { padding-left: 24px; }
+    .report-row.bold { font-weight: 700; }
+    .report-row.total { font-weight: 700; font-size: 16px; padding-top: 12px; border-top: 2px solid var(--charcoal); border-bottom: none; }
+    .report-row.positive { color: var(--success); }
+    .report-row.negative { color: var(--danger); }
+
+    .settings-section { margin-bottom: 32px; }
+    .settings-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--emerald); }
+    .settings-group { background: var(--white); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+    .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--light-gray); }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-label { font-weight: 600; }
+    .settings-desc { font-size: 13px; color: var(--slate); margin-top: 4px; }
+    .settings-input { padding: 10px 16px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-size: 14px; width: 250px; }
+
+    .toggle { position: relative; width: 50px; height: 26px; background: var(--light-gray); border-radius: 13px; cursor: pointer; transition: var(--transition); }
+    .toggle.active { background: var(--emerald); }
+    .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--white); border-radius: 50%; transition: var(--transition); }
+    .toggle.active::after { left: 27px; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--white); border-radius: var(--radius); padding: 32px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .modal-title { font-size: 20px; font-weight: 700; }
+    .modal-close { width: 32px; height: 32px; border: none; background: var(--light-gray); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .modal-close:hover { background: var(--cream-dark); }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-weight: 600; margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; transition: var(--transition); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--emerald); }
+    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--slate); }
+    .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+    .empty-state h3 { margin-bottom: 8px; color: var(--charcoal); }
+
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge-success { background: rgba(46, 125, 90, 0.1); color: var(--success); }
+    .badge-danger { background: rgba(196, 69, 54, 0.1); color: var(--danger); }
+
+    @media (max-width: 1200px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+      .tables-grid { grid-template-columns: 1fr; }
+      .actions-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
-      .mobile-menu-btn {
-        display: flex;
-      }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; padding: 16px; }
+      .header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .kpi-value { font-size: 24px; }
+      .donut-container { flex-direction: column; }
+      .actions-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-direction: column; }
+      .filter-input, .filter-select { width: 100%; }
+      .report-row { flex-direction: column; gap: 4px; }
+      .settings-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .settings-input { width: 100%; }
     }
 
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 50;
+    .mobile-menu-btn { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; width: 44px; height: 44px; background: var(--emerald); border: none; border-radius: var(--radius-sm); cursor: pointer; align-items: center; justify-content: center; }
+    .mobile-menu-btn svg { width: 24px; height: 24px; color: var(--white); }
+
+    @media (max-width: 768px) { .mobile-menu-btn { display: flex; } }
+
+    .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 50; }
+    .overlay.active { display: block; }
+
+    .print-only { display: none; }
+
+    @media print {
+      .sidebar, .header-actions, .btn, .filter-bar, .card-header .btn, .mobile-menu-btn { display: none !important; }
+      .main-content { margin-left: 0; padding: 0; }
+      .page { display: block !important; }
+      .page:not(.print-page) { display: none !important; }
+      .print-only { display: block; }
+      .card { box-shadow: none; border: 1px solid #ddd; }
     }
 
-    .overlay.active {
-      display: block;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .animate-pulse {
-      animation: pulse 2s infinite;
-    }
+    .summary-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+    .summary-box { background: var(--cream); padding: 16px; border-radius: var(--radius-sm); text-align: center; }
+    .summary-box-label { font-size: 12px; color: var(--slate); margin-bottom: 4px; }
+    .summary-box-value { font-size: 20px; font-weight: 700; }
   </style>
 </head>
 <body>
   <div class="app-container">
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
     <div class="overlay" onclick="toggleSidebar()"></div>
 
     <aside class="sidebar" id="sidebar">
       <div class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
+        <div class="logo-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
         <div class="logo-text">PyME<span>Ledger</span></div>
       </div>
-
       <nav>
         <ul class="nav-menu">
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-              </svg>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-              </svg>
-              Plan de Cuentas
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-              </svg>
-              Transacciones
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
-              Balance
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              Reportes
-            </a>
-          </li>
+          <li class="nav-item"><button class="nav-link active" data-page="dashboard"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Dashboard</button></li>
+          <li class="nav-item"><button class="nav-link" data-page="accounts"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>Plan de Cuentas</button></li>
+          <li class="nav-item"><button class="nav-link" data-page="transactions"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>Transacciones</button></li>
+          <li class="nav-item"><button class="nav-link" data-page="balance"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Balance General</button></li>
+          <li class="nav-item"><button class="nav-link" data-page="income"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Estado de Resultados</button></li>
+          <li class="nav-item"><button class="nav-link" data-page="settings"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Configuración</button></li>
         </ul>
       </nav>
-
       <div class="sidebar-footer">
         <div class="user-info">
           <div class="user-avatar">JD</div>
@@ -921,344 +694,616 @@
 
     <main class="main-content">
       <header class="header">
-        <div class="header-title">
-          <h1>Dashboard Financiero</h1>
-          <p>Resumen de tu empresa - Gestión contable en tiempo real</p>
-        </div>
+        <div class="header-title"><h1 id="page-title">Dashboard Financiero</h1><p id="page-subtitle">Resumen de tu empresa - Gestión contable en tiempo real</p></div>
         <div class="header-actions">
           <div class="currency-toggle">
             <button class="currency-btn active" data-currency="pen" onclick="setCurrency('pen')">PEN</button>
             <button class="currency-btn" data-currency="usd" onclick="setCurrency('usd')">USD</button>
           </div>
-          <div class="date-display">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <span id="current-date"></span>
-          </div>
+          <div class="date-display"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span id="current-date"></span></div>
         </div>
       </header>
 
-      <section class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon assets">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-              </svg>
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <section class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon assets"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+              <div class="kpi-trend up"><svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>12.5%</div>
             </div>
-            <div class="kpi-trend up">
-              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-              </svg>
-              12.5%
-            </div>
+            <div class="kpi-label">Total Activos</div>
+            <div class="kpi-value" id="kpi-assets">S/ 142,500</div>
           </div>
-          <div class="kpi-label">Total Activos</div>
-          <div class="kpi-value" id="kpi-assets">S/ 142,500</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon liabilities">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon liabilities"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div class="kpi-trend down"><svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>3.2%</div>
             </div>
-            <div class="kpi-trend down">
-              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              3.2%
-            </div>
+            <div class="kpi-label">Total Pasivos</div>
+            <div class="kpi-value" id="kpi-liabilities">S/ 28,500</div>
           </div>
-          <div class="kpi-label">Total Pasivos</div>
-          <div class="kpi-value" id="kpi-liabilities">S/ 28,500</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon equity">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon equity"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+              <div class="kpi-trend up"><svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>18.3%</div>
             </div>
-            <div class="kpi-trend up">
-              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-              </svg>
-              18.3%
-            </div>
+            <div class="kpi-label">Patrimonio</div>
+            <div class="kpi-value" id="kpi-equity">S/ 114,000</div>
           </div>
-          <div class="kpi-label">Patrimonio</div>
-          <div class="kpi-value" id="kpi-equity">S/ 114,000</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon cash">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-              </svg>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon cash"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
+              <div class="kpi-trend up"><svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>8.7%</div>
             </div>
-            <div class="kpi-trend up">
-              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-              </svg>
-              8.7%
-            </div>
+            <div class="kpi-label">Flujo de Caja</div>
+            <div class="kpi-value" id="kpi-cash">S/ 62,500</div>
           </div>
-          <div class="kpi-label">Flujo de Caja</div>
-          <div class="kpi-value" id="kpi-cash">S/ 62,500</div>
-        </div>
-      </section>
-
-      <section class="charts-grid">
-        <div class="chart-card">
-          <div class="chart-header">
-            <h3 class="chart-title">Ingresos vs Gastos</h3>
-            <div class="chart-legend">
-              <div class="legend-item">
-                <span class="legend-dot income"></span>
-                Ingresos
-              </div>
-              <div class="legend-item">
-                <span class="legend-dot expenses"></span>
-                Gastos
+        </section>
+        <section class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header"><h3 class="chart-title">Ingresos vs Gastos</h3>
+              <div class="chart-legend"><div class="legend-item"><span class="legend-dot income"></span>Ingresos</div><div class="legend-item"><span class="legend-dot expenses"></span>Gastos</div></div>
+            </div>
+            <div class="bar-chart" id="bar-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><h3 class="chart-title">Composición de Activos</h3></div>
+            <div class="donut-container">
+              <div class="donut-chart"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="60" fill="none" stroke="#E8E0D4" stroke-width="20"/><circle id="donut-1" cx="80" cy="80" r="60" fill="none" stroke="#0D5C4A" stroke-width="20" stroke-dasharray="226 377" stroke-dashoffset="0"/><circle id="donut-2" cx="80" cy="80" r="60" fill="none" stroke="#D4A853" stroke-width="20" stroke-dasharray="94 377" stroke-dashoffset="-226"/><circle id="donut-3" cx="80" cy="80" r="60" fill="none" stroke="#2E7D5A" stroke-width="20" stroke-dasharray="57 377" stroke-dashoffset="-320"/></svg><div class="donut-center"><div class="donut-center-value">S/ 142K</div><div class="donut-center-label">Total</div></div></div>
+              <div class="donut-legend">
+                <div class="donut-legend-item"><span class="dot" style="background:#0D5C4A"></span><span>Caja y Bancos</span><span class="value">60%</span></div>
+                <div class="donut-legend-item"><span class="dot" style="background:#D4A853"></span><span>Cuentas por Cobrar</span><span class="value">25%</span></div>
+                <div class="donut-legend-item"><span class="dot" style="background:#2E7D5A"></span><span>Inventarios</span><span class="value">15%</span></div>
               </div>
             </div>
           </div>
-          <div class="bar-chart" id="bar-chart"></div>
-        </div>
-
-        <div class="chart-card">
-          <div class="chart-header">
-            <h3 class="chart-title">Composición de Activos</h3>
+        </section>
+        <section class="tables-grid">
+          <div class="table-card">
+            <div class="table-header"><h3 class="table-title">Cuentas Principales</h3><a class="table-action" onclick="navigateTo('accounts')">Ver todas →</a></div>
+            <table class="data-table"><thead><tr><th>Código</th><th>Cuenta</th><th style="text-align:right;">Saldo</th></tr></thead><tbody id="accounts-table"></tbody></table>
           </div>
-          <div class="donut-container">
-            <div class="donut-chart">
-              <svg width="160" height="160" viewBox="0 0 160 160">
-                <circle cx="80" cy="80" r="60" fill="none" stroke="#E8E0D4" stroke-width="20"/>
-                <circle id="donut-1" cx="80" cy="80" r="60" fill="none" stroke="#0D5C4A" stroke-width="20" stroke-dasharray="226 377" stroke-dashoffset="0"/>
-                <circle id="donut-2" cx="80" cy="80" r="60" fill="none" stroke="#D4A853" stroke-width="20" stroke-dasharray="94 377" stroke-dashoffset="-226"/>
-                <circle id="donut-3" cx="80" cy="80" r="60" fill="none" stroke="#2E7D5A" stroke-width="20" stroke-dasharray="57 377" stroke-dashoffset="-320"/>
-              </svg>
-              <div class="donut-center">
-                <div class="donut-center-value">S/ 142K</div>
-                <div class="donut-center-label">Total</div>
-              </div>
-            </div>
-            <div class="donut-legend">
-              <div class="donut-legend-item">
-                <span class="dot" style="background: #0D5C4A"></span>
-                <span>Caja y Bancos</span>
-                <span class="value">60%</span>
-              </div>
-              <div class="donut-legend-item">
-                <span class="dot" style="background: #D4A853"></span>
-                <span>Cuentas por Cobrar</span>
-                <span class="value">25%</span>
-              </div>
-              <div class="donut-legend-item">
-                <span class="dot" style="background: #2E7D5A"></span>
-                <span>Inventarios</span>
-                <span class="value">15%</span>
-              </div>
-            </div>
+          <div class="table-card">
+            <div class="table-header"><h3 class="table-title">Transacciones Recientes</h3><a class="table-action" onclick="navigateTo('transactions')">Ver todas →</a></div>
+            <div id="transactions-list"></div>
+          </div>
+        </section>
+        <section class="quick-actions">
+          <div class="actions-header"><h3 class="actions-title">Acciones Rápidas</h3></div>
+          <div class="actions-grid">
+            <button class="action-btn" onclick="openTransactionModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg><span>Nueva Transacción</span></button>
+            <button class="action-btn" onclick="navigateTo('balance')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span>Ver Reportes</span></button>
+            <button class="action-btn" onclick="exportData()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg><span>Exportar Datos</span></button>
+            <button class="action-btn" onclick="printReport()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg><span>Imprimir</span></button>
+          </div>
+        </section>
+      </div>
+
+      <!-- ACCOUNTS PAGE -->
+      <div class="page" id="page-accounts">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Plan de Cuentas PCGE</h3><button class="btn btn-primary" onclick="openAccountModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>Nueva Cuenta</button></div>
+          <div class="filter-bar"><input type="text" class="filter-input" placeholder="Buscar cuenta..." id="account-search" oninput="filterAccounts()"><select class="filter-select" id="account-type-filter" onchange="filterAccounts()"><option value="">Todos los tipos</option><option value="1">Activos</option><option value="2">Pasivos</option><option value="3">Patrimonio</option><option value="4">Ingresos</option><option value="5">Gastos</option></select></div>
+          <div id="accounts-list"></div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS PAGE -->
+      <div class="page" id="page-transactions">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Transacciones</h3><button class="btn btn-primary" onclick="openTransactionModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>Nueva Transacción</button></div>
+          <div class="filter-bar">
+            <input type="text" class="filter-input" placeholder="Buscar transacción..." id="transaction-search" oninput="filterTransactions()">
+            <select class="filter-select" id="transaction-type-filter" onchange="filterTransactions()"><option value="">Todos los tipos</option><option value="income">Ingreso</option><option value="expense">Gasto</option></select>
+            <input type="date" class="filter-input" id="transaction-date-start" onchange="filterTransactions()" style="max-width:160px"><input type="date" class="filter-input" id="transaction-date-end" onchange="filterTransactions()" style="max-width:160px">
+          </div>
+          <div id="transactions-full-list"></div>
+        </div>
+      </div>
+
+      <!-- BALANCE SHEET PAGE -->
+      <div class="page" id="page-balance">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Balance General</h3><button class="btn btn-primary" onclick="printReport()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>Imprimir</button></div>
+          <div class="print-only" style="text-align:center;margin-bottom:20px;"><p>Empresa: Mi PyME | Fecha: <span id="print-date"></span></p></div>
+          <div class="report-header"><h1>Balance General</h1><p>Al <span id="balance-date"></span></p></div>
+          <div class="charts-grid" style="margin-bottom:20px;">
+            <div class="summary-box"><div class="summary-box-label">Total Activos</div><div class="summary-box-value" id="balance-assets" style="color:var(--emerald)">S/ 0</div></div>
+            <div class="summary-box"><div class="summary-box-label">Total Pasivos</div><div class="summary-box-value" id="balance-liabilities" style="color:var(--danger)">S/ 0</div></div>
+            <div class="summary-box"><div class="summary-box-label">Patrimonio</div><div class="summary-box-value" id="balance-equity" style="color:var(--amber)">S/ 0</div></div>
+          </div>
+          <div id="balance-report"></div>
+        </div>
+      </div>
+
+      <!-- INCOME STATEMENT PAGE -->
+      <div class="page" id="page-income">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Estado de Resultados</h3><button class="btn btn-primary" onclick="printReport()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>Imprimir</button></div>
+          <div class="report-header"><h1>Estado de Resultados</h1><p>Del 1 de Enero al <span id="income-date"></span></p></div>
+          <div class="charts-grid" style="margin-bottom:20px;">
+            <div class="summary-box"><div class="summary-box-label">Total Ingresos</div><div class="summary-box-value" id="income-total" style="color:var(--success)">S/ 0</div></div>
+            <div class="summary-box"><div class="summary-box-label">Total Gastos</div><div class="summary-box-value" id="expenses-total" style="color:var(--danger)">S/ 0</div></div>
+            <div class="summary-box"><div class="summary-box-label">Resultado</div><div class="summary-box-value" id="net-result">S/ 0</div></div>
+          </div>
+          <div id="income-report"></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="settings-section">
+          <h3 class="settings-title">Información de la Empresa</h3>
+          <div class="settings-group">
+            <div class="settings-row"><div><div class="settings-label">Nombre de la Empresa</div><div class="settings-desc">Nombre legal de tu negocio</div></div><input type="text" class="settings-input" id="company-name" value="Mi PyME" onchange="saveSettings()"></div>
+            <div class="settings-row"><div><div class="settings-label">RUC</div><div class="settings-desc">Registro Único de Contribuyentes</div></div><input type="text" class="settings-input" id="company-ruc" value="20123456789" onchange="saveSettings()"></div>
+            <div class="settings-row"><div><div class="settings-label">Dirección</div><div class="settings-desc">Dirección fiscal de la empresa</div></div><input type="text" class="settings-input" id="company-address" value="Av. Principal 123, Lima" onchange="saveSettings()"></div>
           </div>
         </div>
-      </section>
-
-      <section class="tables-grid">
-        <div class="table-card">
-          <div class="table-header">
-            <h3 class="table-title">Cuentas Principales</h3>
-            <a class="table-action">Ver todas →</a>
+        <div class="settings-section">
+          <h3 class="settings-title">Configuración Contable</h3>
+          <div class="settings-group">
+            <div class="settings-row"><div><div class="settings-label">Moneda Principal</div><div class="settings-desc">Moneda usada en los reportes</div></div><select class="settings-input" id="main-currency" onchange="saveSettings()"><option value="pen">Soles (PEN)</option><option value="usd">Dólares (USD)</option></select></div>
+            <div class="settings-row"><div><div class="settings-label">Ejercicio Fiscal</div><div class="settings-desc">Año contable activo</div></div><select class="settings-input" id="fiscal-year" onchange="saveSettings()"><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option></select></div>
           </div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Cuenta</th>
-                <th style="text-align: right;">Saldo</th>
-              </tr>
-            </thead>
-            <tbody id="accounts-table"></tbody>
-          </table>
         </div>
-
-        <div class="table-card">
-          <div class="table-header">
-            <h3 class="table-title">Transacciones Recientes</h3>
-            <a class="table-action">Ver todas →</a>
+        <div class="settings-section">
+          <h3 class="settings-title">Datos de Respaldo</h3>
+          <div class="settings-group">
+            <div class="settings-row"><div><div class="settings-label">Exportar Datos</div><div class="settings-desc">Descarga todos tus datos en JSON</div></div><button class="btn btn-secondary" onclick="exportData()">Exportar</button></div>
+            <div class="settings-row"><div><div class="settings-label">Importar Datos</div><div class="settings-desc">Restaura datos desde un archivo</div></div><button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Importar</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"></div>
+            <div class="settings-row"><div><div class="settings-label">Restablecer Datos</div><div class="settings-desc">Borra todos los datos y vuelve a empezar</div></div><button class="btn btn-danger" onclick="resetData()">Restablecer</button></div>
           </div>
-          <div id="transactions-list"></div>
         </div>
-      </section>
-
-      <section class="quick-actions">
-        <div class="actions-header">
-          <h3 class="actions-title">Acciones Rápidas</h3>
-        </div>
-        <div class="actions-grid">
-          <button class="action-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-            </svg>
-            <span>Nueva Transacción</span>
-          </button>
-          <button class="action-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <span>Generar Reporte</span>
-          </button>
-          <button class="action-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
-            </svg>
-            <span>Exportar Datos</span>
-          </button>
-          <button class="action-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-            </svg>
-            <span>Sincronizar</span>
-          </button>
-        </div>
-      </section>
+      </div>
     </main>
   </div>
 
+  <!-- TRANSACTION MODAL -->
+  <div class="modal" id="transaction-modal">
+    <div class="modal-content">
+      <div class="modal-header"><h3 class="modal-title" id="transaction-modal-title">Nueva Transacción</h3><button class="modal-close" onclick="closeTransactionModal()">×</button></div>
+      <form id="transaction-form" onsubmit="saveTransaction(event)">
+        <input type="hidden" id="transaction-id">
+        <div class="form-group"><label class="form-label">Tipo de Transacción</label><select class="form-select" id="transaction-type" required><option value="">Seleccionar...</option><option value="income">Ingreso</option><option value="expense">Gasto</option></select></div>
+        <div class="form-group"><label class="form-label">Descripción</label><input type="text" class="form-input" id="transaction-desc" placeholder="Descripción de la transacción" required></div>
+        <div class="form-group"><label class="form-label">Cuenta PCGE</label><select class="form-select" id="transaction-account" required></select></div>
+        <div class="form-group"><label class="form-label">Monto</label><input type="number" class="form-input" id="transaction-amount" placeholder="0.00" step="0.01" min="0" required></div>
+        <div class="form-group"><label class="form-label">Fecha</label><input type="date" class="form-input" id="transaction-date" required></div>
+        <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeTransactionModal()">Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MODAL -->
+  <div class="modal" id="account-modal">
+    <div class="modal-content">
+      <div class="modal-header"><h3 class="modal-title" id="account-modal-title">Nueva Cuenta</h3><button class="modal-close" onclick="closeAccountModal()">×</button></div>
+      <form id="account-form" onsubmit="saveAccount(event)">
+        <input type="hidden" id="account-id">
+        <div class="form-group"><label class="form-label">Código</label><input type="text" class="form-input" id="account-code" placeholder="ej. 10.1" required></div>
+        <div class="form-group"><label class="form-label">Nombre</label><input type="text" class="form-input" id="account-name" placeholder="Nombre de la cuenta" required></div>
+        <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="account-type" required><option value="">Seleccionar...</option><option value="1">Activo</option><option value="2">Pasivo</option><option value="3">Patrimonio</option><option value="4">Ingreso</option><option value="5">Gasto</option></select></div>
+        <div class="form-group"><label class="form-label">Saldo Inicial</label><input type="number" class="form-input" id="account-balance" placeholder="0.00" step="0.01" value="0"></div>
+        <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeAccountModal()">Cancelar</button><button type="submit" class="btn btn-primary">Guardar</button></div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    const financialData = {
-      pen: { 
-        totalAssets: 142500, 
-        totalLiabilities: 28500, 
-        totalEquity: 114000, 
-        cash: 62500 
-      },
-      usd: { 
-        totalAssets: 4850, 
-        totalLiabilities: 970, 
-        totalEquity: 3880, 
-        cash: 3200 
-      }
-    };
-
-    const chartData = {
-      pen: {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-        income: [28000, 32000, 29500, 41000, 38000, 45000],
-        expenses: [22000, 25000, 28000, 32000, 29000, 35000]
-      },
-      usd: {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-        income: [950, 1090, 1000, 1400, 1290, 1530],
-        expenses: [750, 850, 950, 1090, 990, 1190]
-      }
-    };
-
-    const accounts = [
-      { code: '10', name: 'Efectivo y Equivalentes', balance: 85500 },
-      { code: '12', name: 'Cuentas por Cobrar', balance: 42750 },
-      { code: '20', name: 'Inventarios', balance: 14250 },
-      { code: '40', name: 'Remuneraciones por Pagar', balance: 8550 },
-      { code: '42', name: 'Cuentas por Pagar', balance: 14250 },
-      { code: '50', name: 'Capital', balance: 80000 }
+    const pcgeAccounts = [
+      { code: '10', name: 'Efectivo y Equivalentes', type: '1', balance: 85500 },
+      { code: '11', name: 'Cuentas por Cobrar Comerciales', type: '1', balance: 42750 },
+      { code: '12', name: 'Cuentas por Cobrar', type: '1', balance: 15000 },
+      { code: '14', name: 'Cuentas por Cobrar Diversas', type: '1', balance: 5000 },
+      { code: '15', name: 'Inventarios', type: '1', balance: 14250 },
+      { code: '16', name: 'Servicios y Otros Contratados por Anticipado', type: '1', balance: 3000 },
+      { code: '18', name: 'Cuentas por Cobrar a Personal', type: '1', balance: 2000 },
+      { code: '19', name: 'Estimación de Cuentas de Cobranza Dudosa', type: '1', balance: -2500 },
+      { code: '20', name: 'Mercaderías', type: '1', balance: 25000 },
+      { code: '21', name: 'Productos Terminados', type: '1', balance: 8000 },
+      { code: '22', name: 'Subproductos, Desechos y Desperdicios', type: '1', balance: 500 },
+      { code: '23', name: 'Productos en Proceso', type: '1', balance: 3000 },
+      { code: '24', name: 'Materias Primas', type: '1', balance: 12000 },
+      { code: '25', name: 'Materiales Auxiliares, Suministros y Repuestos', type: '1', balance: 4500 },
+      { code: '26', name: 'Envases y Embalajes', type: '1', balance: 1000 },
+      { code: '33', name: 'Inmuebles, Maquinaria y Equipo', type: '1', balance: 50000 },
+      { code: '34', name: 'Intangibles', type: '1', balance: 8000 },
+      { code: '39', name: 'Depreciación Amortización y Agotamiento Acumulados', type: '1', balance: -12000 },
+      { code: '40', name: 'Remuneraciones por Pagar', type: '2', balance: 8550 },
+      { code: '41', name: 'Cuentas por Pagar Comerciales', type: '2', balance: 12000 },
+      { code: '42', name: 'Cuentas por Pagar', type: '2', balance: 14250 },
+      { code: '43', name: 'Cuentas por Pagar Diversas', type: '2', balance: 5000 },
+      { code: '44', name: 'Tributos por Pagar', type: '2', balance: 3200 },
+      { code: '45', name: 'Obligaciones Financieras', type: '2', balance: 8000 },
+      { code: '46', name: 'Cuentas por Pagar a Personal', type: '2', balance: 1500 },
+      { code: '50', name: 'Capital', type: '3', balance: 80000 },
+      { code: '51', name: 'Capital Adicional', type: '3', balance: 20000 },
+      { code: '52', name: 'Reservas', type: '3', balance: 10000 },
+      { code: '59', name: 'Resultados Acumulados', type: '3', balance: 4000 },
+      { code: '60', name: 'Compras', type: '5', balance: 45000 },
+      { code: '61', name: 'Variación de Existencias', type: '5', balance: -5000 },
+      { code: '62', name: 'Gastos de Personal', type: '5', balance: 28000 },
+      { code: '63', name: 'Gastos de Servicios', type: '5', balance: 15000 },
+      { code: '64', name: 'Gastos de Activos', type: '5', balance: 2000 },
+      { code: '65', name: 'Otros Gastos de Gestión', type: '5', balance: 3000 },
+      { code: '66', name: 'Gastos Financieros', type: '5', balance: 1500 },
+      { code: '67', name: 'Gastos por Tributos', type: '5', balance: 2000 },
+      { code: '68', name: 'Valuación y Deterioro de Activos', type: '5', balance: 500 },
+      { code: '69', name: 'Costo de Ventas', type: '5', balance: 35000 },
+      { code: '70', name: 'Ventas', type: '4', balance: 85000 },
+      { code: '73', name: 'Variación de la Producción Almacenada', type: '4', balance: 2000 },
+      { code: '74', name: 'Variación de Productos Terminados', type: '4', balance: 1000 },
+      { code: '75', name: 'Otros Ingresos de Gestión', type: '4', balance: 5000 },
+      { code: '76', name: 'Ingresos Financieros', type: '4', balance: 1500 }
     ];
 
-    const transactions = [
-      { title: 'Venta de Servicios #1042', code: '12.1', date: '28 Mar', amount: 8500, type: 'income' },
-      { title: 'Pago Proveedor XYZ', code: '42.1', date: '27 Mar', amount: -4200, type: 'expense' },
-      { title: 'Ingreso por Consulting', code: '12.1', date: '26 Mar', amount: 12500, type: 'income' },
-      { title: 'Gastos Operativos', code: '63.3', date: '25 Mar', amount: -2800, type: 'expense' },
-      { title: 'Cobro Factura #1041', code: '12.1', date: '24 Mar', amount: 6800, type: 'income' }
-    ];
-
+    let accounts = [];
+    let transactions = [];
+    let settings = {};
     let currentCurrency = 'pen';
+    let currentPage = 'dashboard';
+
+    const pageConfig = {
+      dashboard: { title: 'Dashboard Financiero', subtitle: 'Resumen de tu empresa - Gestión contable en tiempo real' },
+      accounts: { title: 'Plan de Cuentas PCGE', subtitle: 'Catálogo completo de cuentas contables' },
+      transactions: { title: 'Transacciones', subtitle: 'Registro de operaciones contables' },
+      balance: { title: 'Balance General', subtitle: 'Estado de situación financiera' },
+      income: { title: 'Estado de Resultados', subtitle: 'Estado de ganancias y pérdidas' },
+      settings: { title: 'Configuración', subtitle: 'Ajustes de la aplicación' }
+    };
+
+    function loadData() {
+      const savedAccounts = localStorage.getItem('pymeledger_accounts');
+      const savedTransactions = localStorage.getItem('pymeledger_transactions');
+      const savedSettings = localStorage.getItem('pymeledger_settings');
+
+      if (savedAccounts) {
+        accounts = JSON.parse(savedAccounts);
+      } else {
+        accounts = [...pcgeAccounts];
+        saveData();
+      }
+
+      if (savedTransactions) {
+        transactions = JSON.parse(savedTransactions);
+      }
+
+      if (savedSettings) {
+        settings = JSON.parse(savedSettings);
+        applySettings();
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem('pymeledger_accounts', JSON.stringify(accounts));
+      localStorage.setItem('pymeledger_transactions', JSON.stringify(transactions));
+      localStorage.setItem('pymeledger_settings', JSON.stringify(settings));
+    }
+
+    function applySettings() {
+      if (settings.companyName) document.getElementById('company-name').value = settings.companyName;
+      if (settings.companyRuc) document.getElementById('company-ruc').value = settings.companyRuc;
+      if (settings.companyAddress) document.getElementById('company-address').value = settings.companyAddress;
+      if (settings.mainCurrency) document.getElementById('main-currency').value = settings.mainCurrency;
+      if (settings.fiscalYear) document.getElementById('fiscal-year').value = settings.fiscalYear;
+    }
+
+    function saveSettings() {
+      settings = {
+        companyName: document.getElementById('company-name').value,
+        companyRuc: document.getElementById('company-ruc').value,
+        companyAddress: document.getElementById('company-address').value,
+        mainCurrency: document.getElementById('main-currency').value,
+        fiscalYear: document.getElementById('fiscal-year').value
+      };
+      saveData();
+    }
+
+    function navigateTo(page) {
+      currentPage = page;
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      document.querySelector(`[data-page="${page}"]`).classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(`page-${page}`).classList.add('active');
+      document.getElementById('page-title').textContent = pageConfig[page].title;
+      document.getElementById('page-subtitle').textContent = pageConfig[page].subtitle;
+
+      if (page === 'accounts') renderAccountsList();
+      if (page === 'transactions') renderTransactionsFullList();
+      if (page === 'balance') renderBalanceSheet();
+      if (page === 'income') renderIncomeStatement();
+
+      toggleSidebar();
+    }
 
     function formatCurrency(value, currency) {
       const symbol = currency === 'pen' ? 'S/ ' : '$ ';
-      return symbol + value.toLocaleString('es-PE');
+      return symbol + Math.abs(value).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     function setCurrency(currency) {
       currentCurrency = currency;
-      document.querySelectorAll('.currency-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.currency === currency);
-      });
+      document.querySelectorAll('.currency-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.currency === currency));
       updateKPIs();
       renderBarChart();
       renderAccountsTable();
       renderTransactions();
       updateDonutChart();
+      if (currentPage === 'accounts') renderAccountsList();
+      if (currentPage === 'transactions') renderTransactionsFullList();
+      if (currentPage === 'balance') renderBalanceSheet();
+      if (currentPage === 'income') renderIncomeStatement();
+    }
+
+    function getTotals() {
+      const assets = accounts.filter(a => a.type === '1').reduce((sum, a) => sum + (a.balance || 0), 0);
+      const liabilities = accounts.filter(a => a.type === '2').reduce((sum, a) => sum + (a.balance || 0), 0);
+      const equity = accounts.filter(a => a.type === '3').reduce((sum, a) => sum + (a.balance || 0), 0);
+      const income = accounts.filter(a => a.type === '4').reduce((sum, a) => sum + (a.balance || 0), 0);
+      const expenses = accounts.filter(a => a.type === '5').reduce((sum, a) => sum + (a.balance || 0), 0);
+      return { assets, liabilities, equity, income, expenses };
     }
 
     function updateKPIs() {
-      const data = financialData[currentCurrency];
-      document.getElementById('kpi-assets').textContent = formatCurrency(data.totalAssets, currentCurrency);
-      document.getElementById('kpi-liabilities').textContent = formatCurrency(data.totalLiabilities, currentCurrency);
-      document.getElementById('kpi-equity').textContent = formatCurrency(data.totalEquity, currentCurrency);
-      document.getElementById('kpi-cash').textContent = formatCurrency(data.cash, currentCurrency);
+      const totals = getTotals();
+      document.getElementById('kpi-assets').textContent = formatCurrency(totals.assets, currentCurrency);
+      document.getElementById('kpi-liabilities').textContent = formatCurrency(totals.liabilities, currentCurrency);
+      document.getElementById('kpi-equity').textContent = formatCurrency(totals.equity, currentCurrency);
+      document.getElementById('kpi-cash').textContent = formatCurrency(accounts.find(a => a.code === '10')?.balance || 0, currentCurrency);
     }
+
+    const financialData = { pen: { totalAssets: 142500, totalLiabilities: 28500, totalEquity: 114000, cash: 62500 }, usd: { totalAssets: 4850, totalLiabilities: 970, totalEquity: 3880, cash: 3200 } };
+    const chartData = { pen: { labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'], income: [28000, 32000, 29500, 41000, 38000, 45000], expenses: [22000, 25000, 28000, 32000, 29000, 35000] }, usd: { labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'], income: [950, 1090, 1000, 1400, 1290, 1530], expenses: [750, 850, 950, 1090, 990, 1190] } };
 
     function renderBarChart() {
       const data = chartData[currentCurrency];
       const maxValue = Math.max(...data.income, ...data.expenses);
       const chart = document.getElementById('bar-chart');
-      chart.innerHTML = data.labels.map((label, i) => `
-        <div class="bar-group">
-          <div class="bars">
-            <div class="bar income" style="height: ${(data.income[i] / maxValue) * 140}px" title="${formatCurrency(data.income[i], currentCurrency)}"></div>
-            <div class="bar expenses" style="height: ${(data.expenses[i] / maxValue) * 140}px" title="${formatCurrency(data.expenses[i], currentCurrency)}"></div>
-          </div>
-          <span class="bar-label">${label}</span>
-        </div>
-      `).join('');
+      if (!chart) return;
+      chart.innerHTML = data.labels.map((label, i) => `<div class="bar-group"><div class="bars"><div class="bar income" style="height: ${(data.income[i] / maxValue) * 140}px" title="${formatCurrency(data.income[i], currentCurrency)}"></div><div class="bar expenses" style="height: ${(data.expenses[i] / maxValue) * 140}px" title="${formatCurrency(data.expenses[i], currentCurrency)}"></div></div><span class="bar-label">${label}</span></div>`).join('');
     }
 
     function updateDonutChart() {
-      const data = financialData[currentCurrency];
-      const total = data.totalAssets;
+      const totals = getTotals();
+      const total = totals.assets;
       const symbol = currentCurrency === 'pen' ? 'S/ ' : '$ ';
       const formatted = total >= 1000 ? (total / 1000).toFixed(0) + 'K' : total;
       document.querySelector('.donut-center-value').textContent = symbol + formatted;
     }
 
     function renderAccountsTable() {
-      const tableData = accounts;
-
-      document.getElementById('accounts-table').innerHTML = tableData.map(account => `
-        <tr>
-          <td><span class="account-code">${account.code}</span></td>
-          <td class="account-name">${account.name}</td>
-          <td class="amount positive">${formatCurrency(account.balance, currentCurrency)}</td>
-        </tr>
-      `).join('');
+      const tableData = accounts.slice(0, 6);
+      document.getElementById('accounts-table').innerHTML = tableData.map(account => `<tr><td><span class="account-code">${account.code}</span></td><td class="account-name">${account.name}</td><td class="amount ${account.balance >= 0 ? 'positive' : 'negative'}">${formatCurrency(account.balance, currentCurrency)}</td></tr>`).join('');
     }
 
     function renderTransactions() {
-      document.getElementById('transactions-list').innerHTML = transactions.map(tx => `
-        <div class="transaction-item">
-          <div class="transaction-icon ${tx.type}">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              ${tx.type === 'income' 
-                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>'
-                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>'
-              }
-            </svg>
-          </div>
-          <div class="transaction-details">
-            <div class="transaction-title">${tx.title}</div>
-            <div class="transaction-meta">PCGE ${tx.code}</div>
-          </div>
-          <div class="transaction-amount">
-            <div class="amount ${tx.amount > 0 ? 'positive' : 'negative'}">${formatCurrency(Math.abs(tx.amount), currentCurrency)}</div>
-            <div class="date">${tx.date}</div>
-          </div>
-        </div>
-      `).join('');
+      const recent = transactions.slice(0, 5);
+      document.getElementById('transactions-list').innerHTML = recent.length ? recent.map(tx => `<div class="transaction-item"><div class="transaction-icon ${tx.type}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">${tx.type === 'income' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>'}</svg></div><div class="transaction-details"><div class="transaction-title">${tx.description}</div><div class="transaction-meta">PCGE ${tx.accountCode}</div></div><div class="transaction-amount"><div class="amount ${tx.amount > 0 ? 'positive' : 'negative'}">${formatCurrency(tx.amount, currentCurrency)}</div><div class="date">${tx.date}</div></div></div>`).join('') : '<div class="empty-state"><p>No hay transacciones</p></div>';
+    }
+
+    function renderAccountsList() {
+      const search = document.getElementById('account-search').value.toLowerCase();
+      const typeFilter = document.getElementById('account-type-filter').value;
+      let filtered = accounts.filter(a => a.name.toLowerCase().includes(search) || a.code.includes(search));
+      if (typeFilter) filtered = filtered.filter(a => a.type === typeFilter);
+
+      const groups = { '1': { title: 'ACTIVOS', accounts: filtered.filter(a => a.type === '1') }, '2': { title: 'PASIVOS', accounts: filtered.filter(a => a.type === '2') }, '3': { title: 'PATRIMONIO', accounts: filtered.filter(a => a.type === '3') }, '4': { title: 'INGRESOS', accounts: filtered.filter(a => a.type === '4') }, '5': { title: 'GASTOS', accounts: filtered.filter(a => a.type === '5') } };
+
+      let html = '';
+      for (const [type, group] of Object.entries(groups)) {
+        if (group.accounts.length === 0) continue;
+        const total = group.accounts.reduce((sum, a) => sum + (a.balance || 0), 0);
+        html += `<div class="account-group"><div class="account-group-header"><span class="account-group-title">${group.title}</span><span class="account-group-total">${formatCurrency(total, currentCurrency)}</span></div>`;
+        html += group.accounts.map(a => `<div class="transaction-item" style="border-bottom:1px solid var(--light-gray)"><div style="flex:1"><span class="account-code">${a.code}</span><span class="account-name" style="margin-left:12px">${a.name}</span></div><div style="display:flex;gap:8px"><span class="amount ${a.balance >= 0 ? 'positive' : 'negative'}">${formatCurrency(a.balance, currentCurrency)}</span><button class="btn btn-secondary" style="padding:4px 8px;font-size:12px" onclick="editAccount('${a.code}')">✏️</button></div></div>`).join('');
+        html += '</div>';
+      }
+      document.getElementById('accounts-list').innerHTML = html || '<div class="empty-state"><h3>Sin resultados</h3><p>No se encontraron cuentas</p></div>';
+    }
+
+    function filterAccounts() { renderAccountsList(); }
+
+    function renderTransactionsFullList() {
+      const search = document.getElementById('transaction-search').value.toLowerCase();
+      const typeFilter = document.getElementById('transaction-type-filter').value;
+      const startDate = document.getElementById('transaction-date-start').value;
+      const endDate = document.getElementById('transaction-date-end').value;
+
+      let filtered = transactions.filter(tx => tx.description.toLowerCase().includes(search));
+      if (typeFilter) filtered = filtered.filter(tx => tx.type === typeFilter);
+      if (startDate) filtered = filtered.filter(tx => tx.date >= startDate);
+      if (endDate) filtered = filtered.filter(tx => tx.date <= endDate);
+
+      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      const html = filtered.length ? filtered.map(tx => `<div class="transaction-item"><div class="transaction-icon ${tx.type}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">${tx.type === 'income' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>'}</svg></div><div class="transaction-details"><div class="transaction-title">${tx.description}</div><div class="transaction-meta">PCGE ${tx.accountCode} · ${tx.date}</div></div><div class="transaction-amount"><div class="amount ${tx.amount > 0 ? 'positive' : 'negative'}">${formatCurrency(tx.amount, currentCurrency)}</div><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-secondary" style="padding:4px 8px;font-size:12px" onclick="editTransaction('${tx.id}')">✏️</button><button class="btn btn-danger" style="padding:4px 8px;font-size:12px" onclick="deleteTransaction('${tx.id}')">🗑️</button></div></div></div>`).join('') : '<div class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg><h3>Sin transacciones</h3><p>Registra tu primera transacción</p><button class="btn btn-primary" style="margin-top:16px" onclick="openTransactionModal()">+ Nueva Transacción</button></div>';
+      document.getElementById('transactions-full-list').innerHTML = html;
+    }
+
+    function filterTransactions() { renderTransactionsFullList(); }
+
+    function renderBalanceSheet() {
+      const totals = getTotals();
+      const today = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric' });
+      document.getElementById('balance-date').textContent = today;
+      document.getElementById('print-date').textContent = today;
+      document.getElementById('balance-assets').textContent = formatCurrency(totals.assets, currentCurrency);
+      document.getElementById('balance-liabilities').textContent = formatCurrency(totals.liabilities, currentCurrency);
+      document.getElementById('balance-equity').textContent = formatCurrency(totals.equity, currentCurrency);
+
+      let html = '<div class="report-section"><div class="report-section-title">ACTIVOS</div>';
+      const activeAccounts = accounts.filter(a => a.type === '1' && a.balance !== 0);
+      activeAccounts.forEach(a => html += `<div class="report-row"><span>${a.code} - ${a.name}</span><span class="${a.balance >= 0 ? 'positive' : 'negative'}">${formatCurrency(a.balance, currentCurrency)}</span></div>`);
+      html += `<div class="report-row total"><span>TOTAL ACTIVOS</span><span>${formatCurrency(totals.assets, currentCurrency)}</span></div></div>`;
+
+      html += '<div class="report-section"><div class="report-section-title">PASIVOS</div>';
+      const liabilityAccounts = accounts.filter(a => a.type === '2' && a.balance !== 0);
+      liabilityAccounts.forEach(a => html += `<div class="report-row"><span>${a.code} - ${a.name}</span><span class="${a.balance >= 0 ? 'positive' : 'negative'}">${formatCurrency(a.balance, currentCurrency)}</span></div>`);
+      html += `<div class="report-row total"><span>TOTAL PASIVOS</span><span>${formatCurrency(totals.liabilities, currentCurrency)}</span></div></div>`;
+
+      html += '<div class="report-section"><div class="report-section-title">PATRIMONIO</div>';
+      const equityAccounts = accounts.filter(a => a.type === '3' && a.balance !== 0);
+      equityAccounts.forEach(a => html += `<div class="report-row"><span>${a.code} - ${a.name}</span><span class="${a.balance >= 0 ? 'positive' : 'negative'}">${formatCurrency(a.balance, currentCurrency)}</span></div>`);
+      html += `<div class="report-row total"><span>TOTAL PATRIMONIO</span><span>${formatCurrency(totals.equity, currentCurrency)}</span></div>`;
+
+      html += `<div class="report-row total" style="margin-top:20px;font-size:18px"><span>PASIVOS + PATRIMONIO</span><span>${formatCurrency(totals.liabilities + totals.equity, currentCurrency)}</span></div>`;
+
+      document.getElementById('balance-report').innerHTML = html;
+    }
+
+    function renderIncomeStatement() {
+      const totals = getTotals();
+      const netResult = totals.income - totals.expenses;
+      const today = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric' });
+      document.getElementById('income-date').textContent = today;
+      document.getElementById('income-total').textContent = formatCurrency(totals.income, currentCurrency);
+      document.getElementById('expenses-total').textContent = formatCurrency(totals.expenses, currentCurrency);
+      document.getElementById('net-result').textContent = formatCurrency(netResult, currentCurrency);
+      document.getElementById('net-result').style.color = netResult >= 0 ? 'var(--success)' : 'var(--danger)';
+
+      let html = '<div class="report-section"><div class="report-section-title">INGRESOS</div>';
+      const incomeAccounts = accounts.filter(a => a.type === '4' && a.balance !== 0);
+      incomeAccounts.forEach(a => html += `<div class="report-row indent"><span>${a.code} - ${a.name}</span><span class="positive">${formatCurrency(a.balance, currentCurrency)}</span></div>`);
+      html += `<div class="report-row bold"><span>TOTAL INGRESOS</span><span class="positive">${formatCurrency(totals.income, currentCurrency)}</span></div></div>`;
+
+      html += '<div class="report-section"><div class="report-section-title">GASTOS</div>';
+      const expenseAccounts = accounts.filter(a => a.type === '5' && a.balance !== 0);
+      expenseAccounts.forEach(a => html += `<div class="report-row indent"><span>${a.code} - ${a.name}</span><span class="negative">${formatCurrency(a.balance, currentCurrency)}</span></div>`);
+      html += `<div class="report-row bold"><span>TOTAL GASTOS</span><span class="negative">${formatCurrency(totals.expenses, currentCurrency)}</span></div>`;
+
+      html += `<div class="report-row total" style="margin-top:20px;font-size:18px"><span>RESULTADO DEL EJERCICIO</span><span class="${netResult >= 0 ? 'positive' : 'negative'}">${formatCurrency(netResult, currentCurrency)}</span></div>`;
+
+      document.getElementById('income-report').innerHTML = html;
+    }
+
+    function openTransactionModal(tx = null) {
+      const modal = document.getElementById('transaction-modal');
+      modal.classList.add('active');
+      document.getElementById('transaction-form').reset();
+      document.getElementById('transaction-id').value = '';
+      document.getElementById('transaction-modal-title').textContent = tx ? 'Editar Transacción' : 'Nueva Transacción';
+      document.getElementById('transaction-date').value = new Date().toISOString().split('T')[0];
+
+      const accountSelect = document.getElementById('transaction-account');
+      accountSelect.innerHTML = '<option value="">Seleccionar cuenta...</option>';
+      accounts.forEach(a => accountSelect.innerHTML += `<option value="${a.code}">${a.code} - ${a.name}</option>`);
+
+      if (tx) {
+        document.getElementById('transaction-id').value = tx.id;
+        document.getElementById('transaction-type').value = tx.type;
+        document.getElementById('transaction-desc').value = tx.description;
+        document.getElementById('transaction-account').value = tx.accountCode;
+        document.getElementById('transaction-amount').value = Math.abs(tx.amount);
+        document.getElementById('transaction-date').value = tx.date;
+      }
+    }
+
+    function closeTransactionModal() { document.getElementById('transaction-modal').classList.remove('active'); }
+
+    function saveTransaction(e) {
+      e.preventDefault();
+      const id = document.getElementById('transaction-id').value || Date.now().toString();
+      const type = document.getElementById('transaction-type').value;
+      const description = document.getElementById('transaction-desc').value;
+      const accountCode = document.getElementById('transaction-account').value;
+      let amount = parseFloat(document.getElementById('transaction-amount').value);
+      const date = document.getElementById('transaction-date').value;
+
+      if (type === 'expense') amount = -amount;
+
+      const existingIndex = transactions.findIndex(tx => tx.id === id);
+      const txData = { id, type, description, accountCode, amount, date };
+
+      if (existingIndex >= 0) {
+        transactions[existingIndex] = txData;
+      } else {
+        transactions.unshift(txData);
+      }
+
+      updateAccountBalance(accountCode, amount);
+      saveData();
+      closeTransactionModal();
+      renderTransactions();
+      renderTransactionsFullList();
+      updateKPIs();
+      updateDonutChart();
+      renderAccountsTable();
+    }
+
+    function editTransaction(id) {
+      const tx = transactions.find(t => t.id === id);
+      if (tx) openTransactionModal(tx);
+    }
+
+    function deleteTransaction(id) {
+      if (confirm('¿Eliminar esta transacción?')) {
+        const tx = transactions.find(t => t.id === id);
+        if (tx) {
+          updateAccountBalance(tx.accountCode, -tx.amount);
+          transactions = transactions.filter(t => t.id !== id);
+          saveData();
+          renderTransactions();
+          renderTransactionsFullList();
+          updateKPIs();
+          updateDonutChart();
+          renderAccountsTable();
+        }
+      }
+    }
+
+    function updateAccountBalance(accountCode, amountChange) {
+      const account = accounts.find(a => a.code === accountCode);
+      if (account) {
+        account.balance = (account.balance || 0) + amountChange;
+      }
+    }
+
+    function openAccountModal(acc = null) {
+      const modal = document.getElementById('account-modal');
+      modal.classList.add('active');
+      document.getElementById('account-form').reset();
+      document.getElementById('account-id').value = '';
+      document.getElementById('account-modal-title').textContent = acc ? 'Editar Cuenta' : 'Nueva Cuenta';
+
+      if (acc) {
+        document.getElementById('account-id').value = acc.code;
+        document.getElementById('account-code').value = acc.code;
+        document.getElementById('account-name').value = acc.name;
+        document.getElementById('account-type').value = acc.type;
+        document.getElementById('account-balance').value = acc.balance;
+      }
+    }
+
+    function closeAccountModal() { document.getElementById('account-modal').classList.remove('active'); }
+
+    function saveAccount(e) {
+      e.preventDefault();
+      const code = document.getElementById('account-code').value;
+      const name = document.getElementById('account-name').value;
+      const type = document.getElementById('account-type').value;
+      const balance = parseFloat(document.getElementById('account-balance').value) || 0;
+
+      const existingIndex = accounts.findIndex(a => a.code === code);
+      const accData = { code, name, type, balance };
+
+      if (existingIndex >= 0) {
+        accounts[existingIndex] = { ...accounts[existingIndex], ...accData };
+      } else {
+        accounts.push(accData);
+      }
+
+      saveData();
+      closeAccountModal();
+      renderAccountsList();
+      renderAccountsTable();
+      updateKPIs();
+      updateDonutChart();
+    }
+
+    function editAccount(code) {
+      const acc = accounts.find(a => a.code === code);
+      if (acc) openAccountModal(acc);
     }
 
     function toggleSidebar() {
@@ -1266,13 +1311,81 @@
       document.querySelector('.overlay').classList.toggle('active');
     }
 
+    function exportData() {
+      const data = { accounts, transactions, settings, exportDate: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pymeledger_backup_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (data.accounts) accounts = data.accounts;
+            if (data.transactions) transactions = data.transactions;
+            if (data.settings) { settings = data.settings; applySettings(); }
+            saveData();
+            alert('Datos importados correctamente');
+            renderAll();
+          } catch (err) {
+            alert('Error al importar datos');
+          }
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function resetData() {
+      if (confirm('¿Estás seguro de que quieres borrar todos los datos? Esta acción no se puede deshacer.')) {
+        localStorage.clear();
+        accounts = [...pcgeAccounts];
+        transactions = [];
+        settings = {};
+        saveData();
+        applySettings();
+        renderAll();
+        alert('Datos restablecidos');
+      }
+    }
+
+    function printReport() { window.print(); }
+
+    function renderAll() {
+      renderBarChart();
+      renderAccountsTable();
+      renderTransactions();
+      updateKPIs();
+      updateDonutChart();
+      if (currentPage === 'accounts') renderAccountsList();
+      if (currentPage === 'transactions') renderTransactionsFullList();
+      if (currentPage === 'balance') renderBalanceSheet();
+      if (currentPage === 'income') renderIncomeStatement();
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateTo(link.dataset.page);
+      });
+    });
+
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('current-date').textContent = today.toLocaleDateString('es-PE', options);
 
+    loadData();
     renderBarChart();
     renderAccountsTable();
     renderTransactions();
+    updateKPIs();
+    updateDonutChart();
   </script>
 </body>
 </html>

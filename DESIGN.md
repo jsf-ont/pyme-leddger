@@ -175,11 +175,13 @@ The aesthetic draws from the tradition of Swiss editorial design — precision, 
 
 ### Responsive Strategy
 
+> **Note:** BeanPCGE is a **web-only application**. No mobile app exists. This is desktop-first design with graceful mobile browser support.
+
 | Breakpoint | Layout Changes |
 |------------|----------------|
 | > 1200px | Full 4-column KPI grid, 2-column charts |
 | 768-1200px | 2-column KPI grid, stacked charts |
-| < 768px | Sidebar hidden, single column, bottom nav |
+| < 768px | Sidebar hidden, single column, hamburger menu |
 
 ---
 

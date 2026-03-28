@@ -1,320 +1,271 @@
-# PYME-Ledger - Sistema ERP Contable para Peru
+# BeanPCGE - Contabilidad para MYPEs Peruanas
 
-Sistema de contabilidad profesional para micro y pequenas empresas (PYMES) basado en **Beancount** y el **Plan Contable General Empresarial (PCGE)** peruano.
+**BeanPCGE** es una plataforma SaaS de contabilidad **100% web**, diseñada específicamente para las MYPEs (Micro y Pequeñas Empresas) Peruanas. Utiliza el Plan Contable General Empresarial (PCGE) y está lista para SUNAT.
 
-## Tabla de Contenidos
+> **Nota:** BeanPCGE es una aplicación web exclusivamente. No existe versión móvil ni app nativa.
 
-- [Descripcion General](#descripcion-general)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalacion y Requisitos](#instalacion-y-requisitos)
-- [Monedas y Configuracion](#monedas-y-configuracion)
-- [Catalogo de Cuentas PCGE](#catalogo-de-cuentas-pcge)
-- [Patrones de Transacciones](#patrones-de-transacciones)
-- [Comandos Utiles](#comandos-utiles)
-- [Expansion Futura](#expansion-futura)
+## Características
 
----
+- ✅ **Contabilidad PCGE 100% Peruana** - Plan de cuentas preconfigurado según el PCGE
+- ✅ **Dashboard Financiero** - Métricas claras: Ingresos, Gastos, Ganancias
+- ✅ **Transacciones en Lenguaje Natural** - Describe tus operaciones y la IA las categoriza
+- ✅ **Reportes Instantáneos** - Balance General y Estado de Resultados
+- ✅ **Compatible con SUNAT** - Genera reportes para declaraciones tributarias
+- ✅ **Autenticación Segura** - Supabase Auth o JWT
+- ✅ **Demo Mode** - Prueba la plataforma sin registrarte
 
-## Descripcion General
+## Tecnologías
 
-**PYME-Ledger** es un sistema de contabilidad de doble entrada basado en texto plano que implementa el estandar contable peruano PCGE. Diseñado para:
+### Frontend
+- React 18 + Vite
+- React Router (navegación)
+- Supabase Client
+- Lucide React (iconos)
+- CSS personalizado (diseño Emerald/Cream/Amber)
 
-- **Bodegas y tiendas** al por menor
-- **Empresas de servicios**
-- **Pequenas manufactureras**
-- **Cualquier negocio peruano** que requiera cumplimiento PCGE
+### Backend
+- Node.js + Express
+- SQLite (better-sqlite3)
+- JWT / Supabase JWT Verification
+- REST API
 
-### Caracteristicas Principales
+### Base de Datos
+- SQLite (local)
+- Supabase PostgreSQL (producción)
 
-- **Contabilidad de doble entrada** con partida doble
-- **Monedas multiples**: PEN (Sol Peruano) y USD (Dolar Estadounidense)
-- **Codigos PCGE de 5 digitos** para cumplimiento normativo
-- **IGV (IVA Peruano)** del 18%% configurado
-- **Control de versiones** de datos contables con Git
-- **Reportes financieros** via Beancount
-
----
+### Deployment
+- Docker + Docker Compose
+- Dokploy compatible
 
 ## Estructura del Proyecto
 
 ```
 pyme-ledger/
-
-|-- data/
-|   |-- main.beancount          # Archivo principal del libro mayor
-|   |   |-- Configuracion de opciones
-|   |   |-- Monedas operativas (PEN, USD)
-|   |   |-- Includes (accounts.bean)
-|   |   |-- Transacciones de ejemplo
-|   |
-|   +-- core/
-|       +-- accounts.bean       # Catalogo de cuentas PCGE
-
-|-- README.md                   # Este archivo
-|-- VERSION_MODIFICADA_PCG_EMPRESARIAL.md  # Referencia PCGE completa
-
-|-- .agents/                    # Configuracion de agentes (no parte de contabilidad)
+├── frontend/              # Frontend React
+│   ├── src/
+│   │   ├── pages/       # Landing, Login, Register, Dashboard
+│   │   ├── styles/     # CSS global y app
+│   │   └── App.jsx      # Router principal
+│   ├── dist/            # Build de producción
+│   └── package.json
+├── backend/             # Backend Express
+│   ├── routes/
+│   │   ├── auth.js     # Autenticación
+│   │   └── api.js      # API de negocios
+│   ├── middleware/
+│   │   └── auth.js     # JWT middleware
+│   ├── data/           # SQLite database
+│   ├── server.js       # Servidor principal
+│   └── package.json
+├── docker-compose.yml  # Docker Compose
+├── Dockerfile          # Imagen Docker
+└── .env.example        # Variables de entorno
 ```
 
-## Instalacion y Requisitos
+## Instalación y Uso Local
 
 ### Requisitos
+- Node.js 18+
+- Docker (opcional)
 
-- **Python 3.8+**
-- **Beancount** (motor de contabilidad)
+### Desarrollo
 
-### Instalacion
-
+1. **Instalar dependencias del backend:**
 ```bash
-# Instalar Beancount
-pip install beancount
-
-# Verificar instalacion
-bean-check --version
+cd backend
+npm install
 ```
 
-### Validar el Libro Mayor
-
+2. **Instalar dependencias del frontend:**
 ```bash
-# Validar sintaxis y balances
-bean-check data/main.beancount
-
-# Generar reporte de balances
-bean-report data/main.beancount balancesheet
-
-# Generar estado de resultados
-bean-report data/main.beancount incomeStatement
+cd frontend
+npm install
 ```
 
-## Monedas y Configuracion
-
-### Monedas Soportadas
-
-| Codigo | Moneda | Uso |
-|--------|--------|-----|
-| **PEN** | Sol Peruano | Moneda principal de operacion |
-| **USD** | Dolar Estadounidense | Cuenta BCP en dolares |
-
-### Configuracion en main.beancount
-
-```lisp
-option "operating_currency" "PEN"
-option "operating_currency" "USD"
-```
-
-## Catalogo de Cuentas PCGE
-
-### Activos (Elementos 1, 2, 3)
-
-#### 10 - Efectivo y Equivalentes
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 10:1011 | Caja:Principal | PEN | Caja registradora principal |
-| 10:1041 | CuentasCorrientes:BCP:Operativa | PEN, USD | Cuenta bancaria BCP operativa |
-
-#### 12 - Cuentas por Cobrar Comerciales
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 12:1212 | Clientes:Emitidas:Varios | PEN | Cuentas por cobrar a clientes |
-
-#### 20 - Mercaderias (Inventarios)
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 20:2011 | Mercaderias:Almacen:General | PEN | Inventario en almacen |
-
-#### 33 - Inmuebles, Maquinaria y Equipo
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 33:3331 | Equipos:Explotacion:Maquinas | PEN | Maquinaria industrial |
-| 33:3361 | Equipos:Computo:Hardware | PEN | Equipos de computo |
-
-### Pasivos (Elemento 4)
-
-#### 40 - Tributos y Aportes
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 40:4011 | IGV:Fiscal | PEN | IGV por pagar - SUNAT |
-| 40:4017 | Renta:TerceraCategoria | PEN | Impuesto a la renta - 3ra categoria |
-
-#### 42 - Cuentas por Pagar Comerciales
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 42:4212 | Proveedores:Emitidas:Varios | PEN | Cuentas por pagar a proveedores |
-
-#### 45 - Obligaciones Financieras
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 45:4511 | Prestamos:Bancos:BCP | PEN | Prestamos bancarios BCP |
-
-### Patrimonio (Elemento 5)
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 50:5011 | Capital:Social | PEN | Capital social de la empresa |
-| 59:5911 | Resultados:Acumulados | PEN | Resultados acumulados |
-
-### Gastos (Elemento 6)
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 60:6011 | Compras:Mercaderias | PEN | Compras de mercaderias |
-| 62:6211 | Sueldos:Salarios | PEN | Planilla de sueldos |
-| 63:6311 | Servicios:Alquileres | PEN | Alquileres de local |
-| 63:6341 | Servicios:Mantenimiento | PEN | Servicios de mantenimiento |
-| 69:6911 | CostoVentas:Mercaderias | PEN | Costo de ventas |
-
-### Ingresos (Elemento 7)
-
-| Codigo | Cuenta | Monedas | Proposito |
-|--------|--------|---------|-----------|
-| 70:7011 | Ventas:Mercaderias:Local | PEN | Ventas canal local |
-
-## Patrones de Transacciones
-
-### Ciclo Operativo PYME
-
-```
-COMPRA          ALMACEN           VENTA           CAJA
-(60) ---------> (20) <---------> (70, 40) ------> (10)
-     IGV(40)         Costo(69)
-```
-
-### Patron 1: Venta al Contado con IGV
-
-```lisp
-2026-03-28 * "Cliente Varios" "Venta de 10 unidades de mercaderia" #venta #pos
-  documento: "FAC-001-0001"
-  Assets:PE:10:1011:Caja:Principal                 118.00 PEN
-  Income:PE:70:7011:Ventas:Mercaderias:Local      -100.00 PEN
-  Liabilities:PE:40:4011:IGV:Fiscal                -18.00 PEN
-```
-
-**Desglose**:
-- **Caja recibe**: 118 PEN (100 base + 18 IGV)
-- **Ventas reconoce**: 100 PEN (base imponible)
-- **IGV por pagar**: 18 PEN (18%% x 100)
-
-### Patron 2: Reconocimiento de Costo de Ventas
-
-```lisp
-2026-03-28 * "Almacen" "Reconocimiento de Costo de Ventas" #costo
-  Expenses:PE:69:6911:CostoVentas:Mercaderias       50.00 PEN
-  Assets:PE:20:2011:Mercaderias:Almacen:General    -50.00 PEN
-```
-
-**Desglose**:
-- **COGS reconoce**: 50 PEN (costo del producto vendido)
-- **Inventario reduce**: 50 PEN (salida de mercaderia)
-
-### Calculo de Margen Bruto
-
-```
-Precio Venta (sin IGV):     100.00 PEN
-Costo de Venta:              50.00 PEN
--------------------------------
-Margen Bruto:                50.00 PEN (50%%)
-
-IGV Recaudado:               18.00 PEN
-Total Cobrado al Cliente:   118.00 PEN
-```
-
-## Comandos Utiles
-
-### Validacion y Reportes
-
+3. **Iniciar el backend:**
 ```bash
-# Validar libro mayor
-bean-check data/main.beancount
+cd backend
+npm start
+```
+El servidor correrá en http://localhost:3001
 
-# Balance General
-bean-report data/main.beancount balancesheet
-
-# Estado de Resultados
-bean-report data/main.beancount incomeStatement
-
-# Libro Mayor de una cuenta
-bean-report data/main.beancount ledger Assets:PE:10:1011
-
-# Diario de transacciones
-bean-report data/main.beancount journal
-
-# Balanza de Comprobacion
-bean-report data/main.beancount trial
-
-# Exportar a CSV
-bean-report data/main.beancount balance --format csv > balances.csv
+4. **Iniciar el frontend (desarrollo):**
+```bash
+cd frontend
+npm run dev
 ```
 
-## Expansion Futura
+5. **Acceder:**
+- Landing: http://localhost:5173
+- Dashboard: http://localhost:5173/dashboard
 
-### Archivos Sugeridos para Crear
+### Producción
 
-1. **`data/core/commodities.bean`**: Definicion explicita de commodities
-   ```lisp
-   2026-01-01 commodity PEN
-     name: "Sol Peruano"
-
-   2026-01-01 commodity USD
-     name: "US Dollar"
-   ```
-
-2. **`data/ledger/2026/00-apertura.bean`**: Saldos iniciales
-   ```lisp
-   ;; Apertura de ejercicio 2026
-
-   2026-01-01 * "Apertura de Ejercicio"
-     Assets:PE:10:1011:Caja:Principal           10,000.00 PEN
-     Assets:PE:10:1041:CuentasCorrientes:BCP:Operativa   50,000.00 PEN
-     Assets:PE:20:2011:Mercaderias:Almacen:General      30,000.00 PEN
-     Equity:PE:50:5011:Capital:Social         -90,000.00 PEN
-   ```
-
-### Cuentas Adicionales Sugeridas
-
-| Codigo | Cuenta | Elemento | Proposito |
-|--------|--------|----------|-----------|
-| 41 | Remuneraciones por Pagar | 4 | Planilla por pagar |
-| 46 | Cuentas por Pagar Diversas | 4 | Otros acreedores |
-| 62:622 | Gratificaciones | 6 | Gratificaciones |
-| 62:623 | Vacaciones | 6 | Compensacion por tiempo de servicios |
-| 63:632 | Servicios Publicos | 6 | Luz, agua, telefono |
-| 63:633 | Servicios Bancarios | 6 | Comisiones bancarias |
-| 94 | Gastos Administrativos | 9 | Costeo por funcion |
-| 95 | Gastos de Venta | 9 | Costeo por funcion |
-
-## Estandar PCGE
-
-El Plan Contable General Empresarial (PCGE) es el estandar contable oficial del Peru, alineado con NIIF (Normas Internacionales de Informacion Financiera).
-
-### Estructura de Codigos (5 Digitos)
-
-```
-Elemento (1 digito) | Cuenta (1 digito) | Subcuenta (1 digito) | Divisionaria (1 digito) | Subdivisionaria (1 digito)
+1. **Build del frontend:**
+```bash
+cd frontend
+npm run build
 ```
 
-### Clasificacion por Elemento
+2. **Ejecutar con Docker:**
+```bash
+docker-compose up --build
+```
 
-| Elemento | Descripcion | Tipo |
-|----------|-------------|------|
-| 1 | Activo Disponible y Exigible | Activo |
-| 2 | Activo Realizable | Activo |
-| 3 | Activo Inmovilizado | Activo |
-| 4 | Pasivo | Pasivo |
-| 5 | Patrimonio Neto | Patrimonio |
-| 6 | Gastos por Naturaleza | Gasto |
-| 7 | Ingresos | Ingreso |
-| 8 | Saldos Intermediarios de Gestion | Resultado |
-| 9 | Costos de Produccion | Costo |
-| 0 | Cuentas de Orden | Orden |
+O manualmente:
+```bash
+cd backend
+npm install
+npm start
+```
+
+## Variables de Entorno
+
+### Backend (.env)
+```env
+PORT=3001
+NODE_ENV=production
+JWT_SECRET=tu-secreto-aqui
+
+# Supabase JWT Verification (optional)
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_JWT_SECRET=tu-supabase-jwt-secret
+```
+
+### Frontend (.env)
+```env
+VITE_API_URL=http://localhost:3001
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=tu-anon-key
+```
 
 ---
 
-*Generado para Mi Bodega SAC - Sistema ERP*
-*Basado en Beancount y PCGE Peruano*
+## Supabase Integration
+
+BeanPCGE soporta autenticación con Supabase. Esta es la configuración recomendada para producción.
+
+### 1. Crear Proyecto Supabase
+
+1. Ve a [supabase.com](https://supabase.com) y crea un nuevo proyecto
+2. Anota la URL del proyecto y las keys (anon y service_role)
+
+### 2. Ejecutar Schema SQL
+
+1. En el panel de Supabase, ve a **SQL Editor**
+2. Copia el contenido de `supabase/schema.sql`
+3. Ejecuta el script
+
+Esto creará:
+- Tabla `profiles` - Perfiles de usuarios
+- Tabla `companies` - Empresas
+- Tabla `accounts` - Plan de cuentas PCGE
+- Tabla `transactions` - Transacciones
+- Tabla `journal_entries` - Partidas contables
+- Tabla `reports` - Reportes cacheados
+
+### 3. Configurar Environment Variables
+
+Copia `.env.example` a `.env` y configura:
+
+```env
+# Frontend (.env)
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# Backend (opcional - solo si usas JWT de Supabase)
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_JWT_SECRET=tu-jwt-secret
+```
+
+### 4. Row Level Security (RLS)
+
+El schema incluye políticas RLS que automáticamente:
+- Permiten a usuarios ver solo sus propios datos
+- Protegen acceso no autorizado a empresas, cuentas y transacciones
+- Crean automáticamente perfiles al registrarse
+
+### 5. Funciones PCGE
+
+El schema incluye:
+- **seed_pcge_accounts**: Auto-crea cuentas PCGE al crear empresa
+- **calculate_igv**: Calcula IGV (18%) para transacciones
+- **calculate_total_with_igv**: Calcula total incluyendo IGV
+
+### 6. Autenticación Híbrida
+
+BeanPCGE funciona en dos modos:
+
+| Modo | Frontend | Backend |
+|------|----------|---------|
+| **Supabase** | Supabase Auth | JWT Supabase |
+| **Local** | Backend JWT | JWT Local |
+
+El modo se detecta automáticamente según las variables configuradas.
+
+## API Endpoints
+
+### Autenticación
+- `POST /api/auth/register` - Registrar usuario
+- `POST /api/auth/login` - Iniciar sesión
+- `POST /api/auth/demo` - Modo demo
+- `GET /api/auth/me` - Datos del usuario (requiere auth)
+- `PUT /api/auth/profile` - Actualizar perfil
+- `PUT /api/auth/company` - Actualizar empresa
+
+### Transacciones
+- `GET /api/transactions` - Listar transacciones
+- `POST /api/transactions` - Crear transacción
+- `DELETE /api/transactions/:id` - Eliminar transacción
+
+### Cuentas
+- `GET /api/accounts` - Listar plan de cuentas
+- `POST /api/accounts` - Crear cuenta
+
+### Reportes
+- `GET /api/dashboard` - Datos del dashboard
+- `GET /api/reports/balance` - Balance General
+- `GET /api/reports/income` - Estado de Resultados
+
+## Deployment con Dokploy
+
+1. **Preparar el servidor Dokploy**
+2. **Crear un nuevo proyecto**
+3. **Configurar el repositorio Git**
+4. **Environment variables:**
+   - `JWT_SECRET` - Secret key para JWT local
+   - `SUPABASE_URL` - URL de tu proyecto Supabase
+   - `SUPABASE_JWT_SECRET` - JWT secret de Supabase
+   - `VITE_SUPABASE_URL` - URL para el frontend
+   - `VITE_SUPABASE_ANON_KEY` - Anon key para el frontend
+   - `DOMAIN` - Tu dominio
+5. **Docker Compose** ya está configurado para Dokploy con Traefik
+
+### Supabase en Producción
+
+Para producción con Supabase:
+1. Configura tu proyecto Supabase con el schema en `supabase/schema.sql`
+2. Establece las variables de entorno en Dokploy
+3. El frontend usará Supabase Auth directamente
+4. El backend puede verificar tokens de Supabase
+
+### Puertos
+- Backend: 3001
+- Base de datos: SQLite (archivo local) o Supabase PostgreSQL
+
+## Precio
+
+- **Prueba**: S/0 (para siempre)
+  - Hasta 50 transacciones
+  - Plan de cuentas básico
+  
+- **Profesional**: S/50/mes
+  - Transacciones ilimitadas
+  - PCGE completo
+  - Reportes SUNAT
+  - IA para categorización
+  - Soporte prioritario
+
+## Licencia
+
+MIT License - 2024 BeanPCGE
