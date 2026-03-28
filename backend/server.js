@@ -185,6 +185,15 @@ const verifyToken = async (req, res, next) => {
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/api'));
 
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.get('*', (req, res) => {

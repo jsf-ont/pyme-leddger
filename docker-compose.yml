@@ -15,12 +15,27 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - JWT_SECRET=${JWT_SECRET:-beanpcge-secret-change-in-production}
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET:-}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.beanpcge.rule=Host(`${DOMAIN:-beanpcge.local}`)"
       - "traefik.http.routers.beanpcge.entrypoints=websecure"
       - "traefik.http.routers.beanpcge.tls.certresolver=letsencrypt"
       - "traefik.http.services.beanpcge.loadbalancer.server.port=3001"
+      - "traefik.docker.network=beanpcge-network"
+    networks:
+      - beanpcge-network
+
+networks:
+  beanpcge-network:
+    driver: bridge
 
 volumes:
   beanpcge-data:
